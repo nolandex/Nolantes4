@@ -1,0 +1,12 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.2s ease-in-out;
+}
+
+.cart-item {
+  transition: all 0.3s ease;
+}
