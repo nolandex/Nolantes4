@@ -53,193 +53,16 @@ const Header = () => `
 `;
 
 const FooterNav = () => `
-  <nav class="bg-[#0F172A] flex justify-around items-center py-3 rounded-t-3xl max-w-sm mx-auto w-full">
-    <a href="/" class="nav-link flex flex-col items-center text-white text-xs font-semibold">
+  <nav class="bg-[#0F172A] flex justify-around items-center py-3 w-full">
+    <a href="/" class="nav-link flex flex-col items-center text-white text-xs font-semibold flex-1">
       <i class="fas fa-home text-lg text-[#3B82F6]"></i>
       <span class="mt-1">Home</span>
     </a>
-    <a href="/profile" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold">
-      <i class="fas fa-user text-lg"></i>
-      <span class="mt-1">Profile</span>
+    <a href="/cart" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
+      <i class="fas fa-shopping-bag text-lg"></i>
+      <span class="mt-1">Bag</span>
     </a>
-  </nav>
-`;
-
-const ProductCard = ({ id, name, price, rating, image, isFavorite }) => `
-  <article class="relative bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)] product-card">
-    <button aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}" class="favorite-btn absolute top-3 right-3 text-${isFavorite ? 'red' : 'gray'}-600 hover:text-red-600" data-id="${id}">
-      <i class="${isFavorite ? 'fas' : 'far'} fa-heart text-lg"></i>
-    </button>
-    <a href="/product?id=${id}" class="nav-link">
-      <img alt="${name}" class="w-full h-20 object-contain mb-3 drop-shadow-[0_10px_6px_rgba(0,0,0,0.1)]" height="80" src="${image}" width="120"/>
-      <h3 class="font-semibold text-gray-900 text-sm mb-1">${name}</h3>
-      <div class="flex items-center justify-between text-xs font-semibold text-gray-900">
-        <span>$${price}</span>
-        <span class="flex items-center space-x-1 text-yellow-400">
-          <i class="fas fa-star text-xs"></i>
-          <span>${rating}</span>
-        </span>
-      </div>
-    </a>
-  </article>
-`;
-
-// Pages
-const renderHome = () => {
-  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-  const currentBanner = parseInt(localStorage.getItem('currentBanner') || '0');
-  const selectedCategory = localStorage.getItem('selectedCategory') || 'All';
-  const filteredProducts = selectedCategory === 'All' ? products : products.filter(p => p.category === selectedCategory);
-
-  return `
-    <div class="max-w-sm mx-auto p-4">
-      ${Header()}
-      <div class="banner-container relative mb-4" style="min-height: 96px;">
-        ${banners.map((banner, index) => `
-          <div class="banner ${index === currentBanner ? 'banner-active' : 'banner-inactive'} bg-[#0F172A] rounded-2xl p-4 flex items-center justify-between">
-            <div class="max-w-[60%]">
-              <p class="text-white text-sm font-semibold leading-tight">${banner.text}</p>
-              <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
-            </div>
-            <img alt="Banner image" class="absolute right-4 top-1/2 -translate-y-1/2 w-24 h-24 object-contain" src="${banner.image}" style="filter: drop-shadow(0 10px 6px rgba(0,0,0,0.1));"/>
-          </div>
-        `).join('')}
-      </div>
-      <div class="flex justify-center space-x-2 mb-4">
-        ${banners.map((_, index) => `
-          <span class="w-2 h-2 rounded-full border ${index === currentBanner ? 'bg-gray-900' : 'border-gray-300'}"></span>
-        `).join('')}
-      </div>
-      <div class="flex justify-between items-center mb-3">
-        <h2 class="font-bold text-gray-900 text-base">Categories</h2>
-        <button class="text-xs text-gray-500 font-semibold">View all</button>
-      </div>
-      <nav class="flex space-x-3 mb-6 overflow-x-auto">
-        <button class="category-btn flex items-center space-x-2 ${selectedCategory === 'All' ? 'bg-[#3B82F6] text-white' : 'bg-gray-100 text-gray-900'} rounded-lg px-3 py-1.5 font-semibold text-xs" data-category="All">
-          <i class="fas fa-shoe-prints text-sm"></i>
-          <span>All</span>
-        </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'High Heels' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="High Heels">
-          <img alt="High heel icon" class="object-contain" height="20" src="public/assets/images/high-heel-icon.jpg" width="20"/>
-        </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Shoes' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Shoes">
-          <img alt="Running shoes icon" class="object-contain" height="20" src="public/assets/images/running-shoes-icon.jpg" width="20"/>
-        </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Loafers' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Loafers">
-          <img alt="Loafers icon" class="object-contain" height="20" src="public/assets/images/loafers-icon.jpg" width="20"/>
-        </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Boots' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Boots">
-          <img alt="Boots icon" class="object-contain" height="20" src="public/assets/images/boots-icon.jpg" width="20"/>
-        </button>
-      </nav>
-      <section class="grid grid-cols-2 gap-4">
-        ${filteredProducts.map(product => ProductCard({ ...product, isFavorite: favorites.includes(product.id) })).join('')}
-      </section>
-    </div>
-    ${FooterNav()}
-  `;
-};
-
-const renderProductDetails = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = parseInt(urlParams.get('id'));
-  const product = products.find(p => p.id === productId) || products[0];
-  const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-  return `
-    <div class="max-w-sm mx-auto p-4">
-      ${Header()}
-      <section class="bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
-        <button aria-label="${favorites.includes(product.id) ? 'Remove from favorites' : 'Add to favorites'}" class="favorite-btn absolute top-3 right-3 text-${favorites.includes(product.id) ? 'red' : 'gray'}-600 hover:text-red-600" data-id="${product.id}">
-          <i class="${favorites.includes(product.id) ? 'fas' : 'far'} fa-heart text-lg"></i>
-        </button>
-        <img alt="${product.name}" class="w-full h-40 object-contain mb-3 drop-shadow-[0_10px_6px_rgba(0,
-
-System: It looks like the code for `public/js/main.js` was cut off in the response. Below, I’ll provide the complete revised `public/js/main.js` file, addressing all the issues you mentioned (non-responsive design, missing cards and alerts, non-functional hamburger menu, non-functional categories, and slideshow movement). I’ll also ensure the file incorporates all requested features (hamburger menu with Bag, Alerts, and Login; functional slideshow; functional categories; 14 products; WhatsApp checkout) and explain the fixes for each issue.
-
-### Fixes for Reported Issues
-1. **Non-responsive Design**:
-   - **Problem**: The website was locked to a fixed width (`max-w-sm`), causing it to not adapt to larger screens.
-   - **Fix**: Updated `index.html` to ensure proper viewport meta tag and used Tailwind’s responsive utilities (e.g., `w-full`, `max-w-sm mx-auto` for centering). Added media queries in `styles.css` to adjust layout for larger screens.
-
-2. **Missing Card and Alert**:
-   - **Problem**: Product cards and alerts were not rendering, likely due to routing issues or incorrect DOM updates.
-   - **Fix**: Ensured the `renderHome` function correctly maps `filteredProducts` to `ProductCard` components. Fixed the `/alerts` route to render a proper alerts page with a placeholder notification. Added checks to prevent null/undefined errors in product rendering.
-
-3. **Hamburger Menu Not Functioning**:
-   - **Problem**: The hamburger menu didn’t open, possibly due to missing or incorrect event listeners or CSS transitions.
-   - **Fix**: Added robust event listeners for `hamburger-toggle` and `hamburger-close` buttons. Ensured `hamburger-menu` CSS uses `transform` for smooth sliding. Attached listeners after each render to account for dynamic DOM updates.
-
-4. **Categories Not Functioning**:
-   - **Problem**: Category buttons didn’t filter products, likely due to state mismanagement or event listener issues.
-   - **Fix**: Stored `selectedCategory` in `localStorage` and updated `renderHome` to filter products based on this state. Ensured `category-btn` event listeners correctly update `selectedCategory` and trigger re-rendering.
-
-5. **Slideshow Not Moving**:
-   - **Problem**: The slideshow wasn’t transitioning between banners, possibly due to issues with `setInterval` or DOM updates.
-   - **Fix**: Moved `setInterval` outside the `renderHome` function to run globally, updating `currentBanner` in `localStorage`. Ensured `banner-container` re-renders correctly with active/inactive classes for smooth transitions.
-
-### Revised `public/js/main.js`
-```javascript
-// Data
-const products = [
-  { id: 1, name: 'Nike Air Max', price: 85, rating: 4.8, image: 'public/assets/images/nike-shoe.jpg', category: 'Shoes' },
-  { id: 2, name: 'Adidas Sneakers', price: 85, rating: 4.8, image: 'public/assets/images/sneakers-ft.jpg', category: 'Shoes' },
-  { id: 3, name: 'Black Stiletto Heels', price: 85, rating: 4.8, image: 'public/assets/images/black-heels.jpg', category: 'High Heels' },
-  { id: 4, name: 'Casual Loafers', price: 85, rating: 4.8, image: 'public/assets/images/casual-shoes.jpg', category: 'Loafers' },
-  { id: 5, name: 'Puma Running Shoes', price: 90, rating: 4.7, image: 'public/assets/images/product5.jpg', category: 'Shoes' },
-  { id: 6, name: 'Ankle Boots', price: 100, rating: 4.9, image: 'public/assets/images/product6.jpg', category: 'Boots' },
-  { id: 7, name: 'Red High Heels', price: 80, rating: 4.6, image: 'public/assets/images/product7.jpg', category: 'High Heels' },
-  { id: 8, name: 'Brown Loafers', price: 75, rating: 4.5, image: 'public/assets/images/product8.jpg', category: 'Loafers' },
-  { id: 9, name: 'Nike Zoom', price: 95, rating: 4.8, image: 'public/assets/images/product9.jpg', category: 'Shoes' },
-  { id: 10, name: 'Combat Boots', price: 110, rating: 4.9, image: 'public/assets/images/product10.jpg', category: 'Boots' },
-  { id: 11, name: 'White Sneakers', price: 80, rating: 4.7, image: 'public/assets/images/product11.jpg', category: 'Shoes' },
-  { id: 12, name: 'Knee-High Boots', price: 120, rating: 4.8, image: 'public/assets/images/product12.jpg', category: 'Boots' },
-  { id: 13, name: 'Gold High Heels', price: 85, rating: 4.6, image: 'public/assets/images/product13.jpg', category: 'High Heels' },
-  { id: 14, name: 'Suede Loafers', price: 70, rating: 4.5, image: 'public/assets/images/product14.jpg', category: 'Loafers' },
-];
-
-const banners = [
-  { image: 'public/assets/images/sneaker-banner.jpg', text: 'Flat 50% discount on your first order.' },
-  { image: 'public/assets/images/banner2.jpg', text: 'New Arrivals: Up to 30% Off!' },
-  { image: 'public/assets/images/banner3.jpg', text: 'Free Shipping on Orders Over $100!' },
-];
-
-// Components
-const Header = () => `
-  <header class="flex items-center justify-between mb-4 relative px-4">
-    <h1 class="font-semibold text-lg text-gray-900">Explore</h1>
-    <button aria-label="Hamburger menu" class="hamburger-toggle p-2 border border-gray-300 rounded-lg text-gray-700">
-      <i class="fas fa-bars text-base"></i>
-    </button>
-    <div class="hamburger-menu fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50">
-      <div class="p-4">
-        <button class="hamburger-close text-gray-700">
-          <i class="fas fa-times text-lg"></i>
-        </button>
-        <nav class="mt-6 space-y-4">
-          ${localStorage.getItem('isLoggedIn') === 'true' ? `
-            <p class="text-gray-900 font-semibold">Hello, John Doe!</p>
-            <button class="logout-btn text-gray-700 hover:text-[#3B82F6] w-full text-left">Logout</button>
-          ` : `
-            <a href="/login" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Login</a>
-          `}
-          <a href="/cart" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Bag</a>
-          <a href="/alerts" class="nav-link block text-gray-700 hover:text-[#3B82F6] relative">
-            Alerts
-            <span class="absolute top-0 right-0 bg-[#3B82F6] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">1</span>
-          </a>
-        </nav>
-      </div>
-    </div>
-  </header>
-`;
-
-const FooterNav = () => `
-  <nav class="bg-[#0F172A] flex justify-around items-center py-3 rounded-t-3xl w-full max-w-sm mx-auto">
-    <a href="/" class="nav-link flex flex-col items-center text-white text-xs font-semibold">
-      <i class="fas fa-home text-lg text-[#3B82F6]"></i>
-      <span class="mt-1">Home</span>
-    </a>
-    <a href="/profile" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold">
+    <a href="/profile" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
       <i class="fas fa-user text-lg"></i>
       <span class="mt-1">Profile</span>
     </a>
@@ -320,16 +143,16 @@ const renderHome = () => {
         <h2 class="font-bold text-gray-900 text-base">Categories</h2>
         <button class="text-xs text-gray-500 font-semibold">View all</button>
       </div>
-      <nav class="flex space-x-3 mb-6 overflow-x-auto">
+      <nav class="categories-nav flex space-x-3 mb-6 overflow-x-auto">
         <button class="category-btn flex items-center space-x-2 ${selectedCategory === 'All' ? 'bg-[#3B82F6] text-white' : 'bg-gray-100 text-gray-900'} rounded-lg px-3 py-1.5 font-semibold text-xs" data-category="All">
           <i class="fas fa-shoe-prints text-sm"></i>
           <span>All</span>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'High Heels' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="High Heels">
-          <img alt="High heel icon" class="object-contain" height="20" src="public/assets/images/high-heel-icon.jpg" width="20"/>
+          <img alt="High Heels icon" class="object-contain" height="20" src="public/assets/images/high-heel-icon.jpg" width="20"/>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Shoes' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Shoes">
-          <img alt="Running shoes icon" class="object-contain" height="20" src="public/assets/images/running-shoes-icon.jpg" width="20"/>
+          <img alt="Running Shoes icon" class="object-contain" height="20" src="public/assets/images/running-shoes-icon.jpg" width="20"/>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Loafers' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Loafers">
           <img alt="Loafers icon" class="object-contain" height="20" src="public/assets/images/loafers-icon.jpg" width="20"/>
@@ -338,8 +161,8 @@ const renderHome = () => {
           <img alt="Boots icon" class="object-contain" height="20" src="public/assets/images/boots-icon.jpg" width="20"/>
         </button>
       </nav>
-      <section class="grid grid-cols-2 gap-4">
-        ${filteredProducts.length ? filteredProducts.map(product => ProductCard({ ...product, isFavorite: favorites.includes(product.id) })).join('') : '<p class="text-gray-600 col-span-2">No products found.</p>'}
+      <section class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        ${filteredProducts.length ? filteredProducts.map(product => ProductCard({ ...product, isFavorite: favorites.includes(product.id) })).join('') : '<p class="text-gray-600 col-span-full">No products found.</p>'}
       </section>
     </div>
     ${FooterNav()}
@@ -380,7 +203,7 @@ const renderCart = () => {
   const cartItems = cart.map(item => {
     const product = products.find(p => p.id === item.id);
     return { ...product, quantity: item.quantity };
-  }).filter(item => item); // Ensure no undefined items
+  }).filter(item => item);
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const generateWhatsAppMessage = () => {
