@@ -35,6 +35,7 @@ const Header = () => `
           <i class="fas fa-times text-lg"></i>
         </button>
         <nav class="mt-6 space-y-4">
+          <a href="/" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Home</a>
           ${localStorage.getItem('isLoggedIn') === 'true' ? `
             <p class="text-gray-900 font-semibold">Hello, John Doe!</p>
             <button class="logout-btn text-gray-700 hover:text-[#3B82F6] w-full text-left">Logout</button>
@@ -65,6 +66,10 @@ const FooterNav = () => `
     <a href="/profile" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
       <i class="fas fa-user text-lg"></i>
       <span class="mt-1">Profile</span>
+    </a>
+    <a href="/alerts" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
+      <i class="fas fa-bell text-lg"></i>
+      <span class="mt-1">Alerts</span>
     </a>
   </nav>
 `;
