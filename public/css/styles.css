@@ -1,5 +1,8 @@
 body {
   font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .product-card:hover {
@@ -69,11 +72,26 @@ body {
 }
 
 /* Footer responsiveness */
+footer {
+  width: 100%;
+  margin-top: auto;
+}
+
 .footer-nav {
   padding: 0.5rem;
+  background-color: #0F172A;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .footer-nav a {
   flex: 1;
   text-align: center;
+  color: #D1D5DB;
+  padding: 0.25rem;
+}
+
+.footer-nav a:hover {
+  color: #3B82F6;
 }
