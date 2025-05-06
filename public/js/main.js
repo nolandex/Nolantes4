@@ -1,21 +1,54 @@
 // Data
 const products = [
-  { id: 1, name: 'Nike Shoe', price: 85, rating: 4.8, image: 'public/assets/images/nike-shoe.jpg', category: 'Shoes' },
-  { id: 2, name: 'Sneakers ft', price: 85, rating: 4.8, image: 'public/assets/images/sneakers-ft.jpg', category: 'Shoes' },
-  { id: 3, name: 'Black Heels', price: 85, rating: 4.8, image: 'public/assets/images/black-heels.jpg', category: 'High Heels' },
-  { id: 4, name: 'Casual Shoes', price: 85, rating: 4.8, image: 'public/assets/images/casual-shoes.jpg', category: 'Shoes' },
+  { id: 1, name: 'Nike Air Max', price: 85, rating: 4.8, image: 'public/assets/images/nike-shoe.jpg', category: 'Shoes' },
+  { id: 2, name: 'Adidas Sneakers', price: 85, rating: 4.8, image: 'public/assets/images/sneakers-ft.jpg', category: 'Shoes' },
+  { id: 3, name: 'Black Stiletto Heels', price: 85, rating: 4.8, image: 'public/assets/images/black-heels.jpg', category: 'High Heels' },
+  { id: 4, name: 'Casual Loafers', price: 85, rating: 4.8, image: 'public/assets/images/casual-shoes.jpg', category: 'Loafers' },
+  { id: 5, name: 'Puma Running Shoes', price: 90, rating: 4.7, image: 'public/assets/images/product5.jpg', category: 'Shoes' },
+  { id: 6, name: 'Ankle Boots', price: 100, rating: 4.9, image: 'public/assets/images/product6.jpg', category: 'Boots' },
+  { id: 7, name: 'Red High Heels', price: 80, rating: 4.6, image: 'public/assets/images/product7.jpg', category: 'High Heels' },
+  { id: 8, name: 'Brown Loafers', price: 75, rating: 4.5, image: 'public/assets/images/product8.jpg', category: 'Loafers' },
+  { id: 9, name: 'Nike Zoom', price: 95, rating: 4.8, image: 'public/assets/images/product9.jpg', category: 'Shoes' },
+  { id: 10, name: 'Combat Boots', price: 110, rating: 4.9, image: 'public/assets/images/product10.jpg', category: 'Boots' },
+  { id: 11, name: 'White Sneakers', price: 80, rating: 4.7, image: 'public/assets/images/product11.jpg', category: 'Shoes' },
+  { id: 12, name: 'Knee-High Boots', price: 120, rating: 4.8, image: 'public/assets/images/product12.jpg', category: 'Boots' },
+  { id: 13, name: 'Gold High Heels', price: 85, rating: 4.6, image: 'public/assets/images/product13.jpg', category: 'High Heels' },
+  { id: 14, name: 'Suede Loafers', price: 70, rating: 4.5, image: 'public/assets/images/product14.jpg', category: 'Loafers' },
+];
+
+const banners = [
+  { image: 'public/assets/images/sneaker-banner.jpg', text: 'Flat 50% discount on your first order.' },
+  { image: 'public/assets/images/banner2.jpg', text: 'New Arrivals: Up to 30% Off!' },
+  { image: 'public/assets/images/banner3.jpg', text: 'Free Shipping on Orders Over $100!' },
 ];
 
 // Components
 const Header = () => `
-  <header class="flex items-center justify-between mb-4">
-    <button aria-label="Grid menu" class="p-2 border border-gray-300 rounded-lg text-gray-700">
-      <i class="fas fa-th-large text-base"></i>
-    </button>
+  <header class="flex items-center justify-between mb-4 relative">
     <h1 class="font-semibold text-lg text-gray-900">Explore</h1>
-    <button aria-label="Search" class="p-2 border border-gray-300 rounded-lg text-gray-700">
-      <i class="fas fa-search text-base"></i>
+    <button aria-label="Hamburger menu" class="hamburger-toggle p-2 border border-gray-300 rounded-lg text-gray-700">
+      <i class="fas fa-bars text-base"></i>
     </button>
+    <div class="hamburger-menu fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform translate-x-full z-50">
+      <div class="p-4">
+        <button class="hamburger-close text-gray-700">
+          <i class="fas fa-times text-lg"></i>
+        </button>
+        <nav class="mt-6 space-y-4">
+          ${localStorage.getItem('isLoggedIn') === 'true' ? `
+            <p class="text-gray-900 font-semibold">Hello, John Doe!</p>
+            <button class="logout-btn text-gray-700 hover:text-[#3B82F6] w-full text-left">Logout</button>
+          ` : `
+            <a href="/login" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Login</a>
+          `}
+          <a href="/cart" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Bag</a>
+          <a href="/alerts" class="nav-link block text-gray-700 hover:text-[#3B82F6] relative">
+            Alerts
+            <span class="absolute top-0 right-0 bg-[#3B82F6] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">1</span>
+          </a>
+        </nav>
+      </div>
+    </div>
   </header>
 `;
 
@@ -24,15 +57,6 @@ const FooterNav = () => `
     <a href="/" class="nav-link flex flex-col items-center text-white text-xs font-semibold">
       <i class="fas fa-home text-lg text-[#3B82F6]"></i>
       <span class="mt-1">Home</span>
-    </a>
-    <a href="/cart" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold">
-      <i class="fas fa-shopping-bag text-lg"></i>
-      <span class="mt-1">Bag</span>
-    </a>
-    <a href="/alerts" class="nav-link relative flex flex-col items-center text-gray-400 text-xs font-semibold">
-      <i class="fas fa-bell text-lg"></i>
-      <span class="mt-1">Alerts</span>
-      <span class="absolute -top-1 -right-2 bg-[#3B82F6] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">1</span>
     </a>
     <a href="/profile" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold">
       <i class="fas fa-user text-lg"></i>
@@ -63,46 +87,73 @@ const ProductCard = ({ id, name, price, rating, image, isFavorite }) => `
 // Pages
 const renderHome = () => {
   const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  let currentBanner = parseInt(localStorage.getItem('currentBanner') || '0');
+  
+  const updateBanner = () => {
+    currentBanner = (currentBanner + 1) % banners.length;
+    localStorage.setItem('currentBanner', currentBanner);
+    const bannerContainer = document.querySelector('.banner-container');
+    if (bannerContainer) {
+      bannerContainer.innerHTML = banners.map((banner, index) => `
+        <div class="${index === currentBanner ? 'banner-active' : 'banner-inactive'} relative bg-[#0F172A] rounded-2xl p-4 flex items-center justify-between mb-4 transition-all duration-500" style="min-height: 96px;">
+          <div class="max-w-[60%]">
+            <p class="text-white text-sm font-semibold leading-tight">${banner.text}</p>
+            <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
+          </div>
+          <img alt="Banner image" class="absolute right-4 top-1/2 -translate-y-1/2 w-24 h-24 object-contain" src="${banner.image}" style="filter: drop-shadow(0 10px 6px rgba(0,0,0,0.1));"/>
+        </div>
+      `).join('');
+    }
+  };
+
+  setInterval(updateBanner, 5000); // Auto-slide every 5 seconds
+
+  const selectedCategory = localStorage.getItem('selectedCategory') || 'All';
+  const filteredProducts = selectedCategory === 'All' ? products : products.filter(p => p.category === selectedCategory);
+
   return `
     <div class="max-w-sm mx-auto p-4">
       ${Header()}
-      <section class="relative bg-[#0F172A] rounded-2xl p-4 flex items-center justify-between mb-4" style="min-height: 96px;">
-        <div class="max-w-[60%]">
-          <p class="text-white text-sm font-semibold leading-tight">Flat 50% discount on<br>your first order.</p>
-          <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
-        </div>
-        <img alt="White sneakers" class="absolute right-4 top-1/2 -translate-y-1/2 w-24 h-24 object-contain" src="public/assets/images/sneaker-banner.jpg" style="filter: drop-shadow(0 10px 6px rgba(0,0,0,0.1));"/>
-      </section>
+      <div class="banner-container">
+        ${banners.map((banner, index) => `
+          <div class="${index === currentBanner ? 'banner-active' : 'banner-inactive'} relative bg-[#0F172A] rounded-2xl p-4 flex items-center justify-between mb-4 transition-all duration-500" style="min-height: 96px;">
+            <div class="max-w-[60%]">
+              <p class="text-white text-sm font-semibold leading-tight">${banner.text}</p>
+              <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
+            </div>
+            <img alt="Banner image" class="absolute right-4 top-1/2 -translate-y-1/2 w-24 h-24 object-contain" src="${banner.image}" style="filter: drop-shadow(0 10px 6px rgba(0,0,0,0.1));"/>
+          </div>
+        `).join('')}
+      </div>
       <div class="flex justify-center space-x-2 mb-4">
-        <span class="w-2 h-2 rounded-full border border-gray-300"></span>
-        <span class="w-2 h-2 rounded-full border border-gray-300"></span>
-        <span class="w-2 h-2 rounded-full border border-gray-300"></span>
-        <span class="w-2 h-2 rounded-full border border-gray-300"></span>
+        ${banners.map((_, index) => `
+          <span class="w-2 h-2 rounded-full border ${index === currentBanner ? 'bg-gray-900' : 'border-gray-300'}"></span>
+        `).join('')}
       </div>
       <div class="flex justify-between items-center mb-3">
         <h2 class="font-bold text-gray-900 text-base">Categories</h2>
         <button class="text-xs text-gray-500 font-semibold">View all</button>
       </div>
       <nav class="flex space-x-3 mb-6">
-        <button class="flex items-center space-x-2 bg-[#3B82F6] rounded-lg px-3 py-1.5 text-white font-semibold text-xs">
+        <button class="category-btn flex items-center space-x-2 ${selectedCategory === 'All' ? 'bg-[#3B82F6] text-white' : 'bg-gray-100 text-gray-900'} rounded-lg px-3 py-1.5 font-semibold text-xs" data-category="All">
           <i class="fas fa-shoe-prints text-sm"></i>
-          <span>Shoes</span>
+          <span>All</span>
         </button>
-        <button aria-label="High heel category" class="flex items-center justify-center w-9 h-9 bg-gray-100 rounded-lg text-gray-900 text-sm">
+        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'High Heels' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="High Heels">
           <img alt="Black high heel shoe icon" class="object-contain" height="20" src="public/assets/images/high-heel-icon.jpg" width="20"/>
         </button>
-        <button aria-label="Running shoes category" class="flex items-center justify-center w-9 h-9 bg-gray-100 rounded-lg text-gray-900 text-sm">
+        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Shoes' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Shoes">
           <img alt="Black running shoes icon" class="object-contain" height="20" src="public/assets/images/running-shoes-icon.jpg" width="20"/>
         </button>
-        <button aria-label="Loafers category" class="flex items-center justify-center w-9 h-9 bg-gray-100 rounded-lg text-gray-900 text-sm">
+        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Loafers' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Loafers">
           <img alt="Black loafers shoe icon" class="object-contain" height="20" src="public/assets/images/loafers-icon.jpg" width="20"/>
         </button>
-        <button aria-label="Boots category" class="flex items-center justify-center w-9 h-9 bg-gray-100 rounded-lg text-gray-900 text-sm">
+        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Boots' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Boots">
           <img alt="Black boots shoe icon" class="object-contain" height="20" src="public/assets/images/boots-icon.jpg" width="20"/>
         </button>
       </nav>
       <section class="grid grid-cols-2 gap-4">
-        ${products.map(product => ProductCard({ ...product, isFavorite: favorites.includes(product.id) })).join('')}
+        ${filteredProducts.map(product => ProductCard({ ...product, isFavorite: favorites.includes(product.id) })).join('')}
       </section>
     </div>
     ${FooterNav()}
@@ -146,6 +197,11 @@ const renderCart = () => {
   });
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  const generateWhatsAppMessage = () => {
+    const message = cartItems.map(item => `${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}`).join('\n');
+    return encodeURIComponent(`Order Details:\n${message}\nTotal: $${total.toFixed(2)}`);
+  };
+
   return `
     <div class="max-w-sm mx-auto p-4">
       ${Header()}
@@ -170,7 +226,7 @@ const renderCart = () => {
       </section>
       <div class="mt-6">
         <p class="font-semibold text-gray-900">Total: $${total.toFixed(2)}</p>
-        <button class="w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg mt-4 ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${cartItems.length === 0 ? 'disabled' : ''}>Checkout</button>
+        <a href="https://wa.me/+1234567890?text=${generateWhatsAppMessage()}" class="w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg mt-4 inline-block text-center ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${cartItems.length === 0 ? 'disabled' : ''}>Checkout via WhatsApp</a>
       </div>
     </div>
     ${FooterNav()}
@@ -201,12 +257,42 @@ const renderProfile = () => `
   ${FooterNav()}
 `;
 
+const renderLogin = () => `
+  <div class="max-w-sm mx-auto p-4">
+    ${Header()}
+    <h2 class="font-bold text-lg text-gray-900 mb-4">Login</h2>
+    <section class="bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
+      <form class="login-form space-y-4">
+        <div>
+          <label class="block text-sm font-semibold text-gray-900">Email</label>
+          <input type="email" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="john.doe@example.com" required>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-900">Password</label>
+          <input type="password" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="********" required>
+        </div>
+        <button type="submit" class="w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg">Login</button>
+      </form>
+    </section>
+  </div>
+  ${FooterNav()}
+`;
+
 // Router
 const routes = {
   '/': renderHome,
   '/product': renderProductDetails,
   '/cart': renderCart,
   '/profile': renderProfile,
+  '/login': renderLogin,
+  '/alerts': () => `
+    <div class="max-w-sm mx-auto p-4">
+      ${Header()}
+      <h2 class="font-bold text-lg text-gray-900 mb-4">Alerts</h2>
+      <p class="text-gray-600">You have 1 new notification.</p>
+    </div>
+    ${FooterNav()}
+  `,
 };
 
 function router() {
@@ -217,6 +303,7 @@ function router() {
 }
 
 function attachEventListeners() {
+  // Navigation
   document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -226,6 +313,22 @@ function attachEventListeners() {
     });
   });
 
+  // Hamburger Menu
+  const hamburgerToggle = document.querySelector('.hamburger-toggle');
+  const hamburgerMenu = document.querySelector('.hamburger-menu');
+  const hamburgerClose = document.querySelector('.hamburger-close');
+  if (hamburgerToggle && hamburgerMenu) {
+    hamburgerToggle.addEventListener('click', () => {
+      hamburgerMenu.classList.toggle('open');
+    });
+  }
+  if (hamburgerClose && hamburgerMenu) {
+    hamburgerClose.addEventListener('click', () => {
+      hamburgerMenu.classList.remove('open');
+    });
+  }
+
+  // Favorites
   document.querySelectorAll('.favorite-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = parseInt(btn.dataset.id);
@@ -240,6 +343,7 @@ function attachEventListeners() {
     });
   });
 
+  // Cart
   document.querySelectorAll('.add-to-cart').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = parseInt(btn.dataset.id);
@@ -282,6 +386,36 @@ function attachEventListeners() {
       router();
     });
   });
+
+  // Categories
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const category = btn.dataset.category;
+      localStorage.setItem('selectedCategory', category);
+      router();
+    });
+  });
+
+  // Login
+  const loginForm = document.querySelector('.login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      localStorage.setItem('isLoggedIn', 'true');
+      window.history.pushState({}, '', '/');
+      router();
+    });
+  }
+
+  // Logout
+  const logoutBtn = document.querySelector('.logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.setItem('isLoggedIn', 'false');
+      window.history.pushState({}, '', '/');
+      router();
+    });
+  }
 }
 
 window.addEventListener('popstate', router);
