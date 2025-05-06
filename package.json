@@ -1,0 +1,12 @@
+{
+  "name": "ecommerce-shoes",
+  "version": "1.0.0",
+  "description": "E-commerce website for shoes",
+  "scripts": {
+    "start": "npx live-server public"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
