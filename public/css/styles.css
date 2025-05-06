@@ -10,3 +10,22 @@ body {
 .cart-item {
   transition: all 0.3s ease;
 }
+
+.hamburger-menu {
+  transition: transform 0.3s ease-in-out;
+}
+
+.hamburger-menu.open {
+  transform: translateX(0);
+}
+
+.banner-active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.banner-inactive {
+  opacity: 0;
+  transform: translateX(100%);
+  position: absolute;
+}
