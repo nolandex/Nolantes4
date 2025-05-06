@@ -1,27 +1,27 @@
 console.log("Script loaded");
 
-// Data
+// Data (without images)
 const products = [
-  { id: 1, name: 'Nike Air Max', price: 85, rating: 4.8, image: '/Nolantes4/assets/images/4.jpg', category: 'Shoes' },
-  { id: 2, name: 'Adidas Sneakers', price: 85, rating: 4.8, image: '/Nolantes4/assets/images/5.jpg', category: 'Shoes' },
-  { id: 3, name: 'Black Stiletto Heels', price: 85, rating: 4.8, image: '/Nolantes4/assets/images/6.jpg', category: 'High Heels' },
-  { id: 4, name: 'Casual Loafers', price: 85, rating: 4.8, image: '/Nolantes4/assets/images/7.jpg', category: 'Loafers' },
-  { id: 5, name: 'Puma Running Shoes', price: 90, rating: 4.7, image: '/Nolantes4/assets/images/12.jpg', category: 'Shoes' },
-  { id: 6, name: 'Ankle Boots', price: 100, rating: 4.9, image: '/Nolantes4/assets/images/13.jpg', category: 'Boots' },
-  { id: 7, name: 'Red High Heels', price: 80, rating: 4.6, image: '/Nolantes4/assets/images/14.jpg', category: 'High Heels' },
-  { id: 8, name: 'Brown Loafers', price: 75, rating: 4.5, image: '/Nolantes4/assets/images/15.jpg', category: 'Loafers' },
-  { id: 9, name: 'Nike Zoom', price: 95, rating: 4.8, image: '/Nolantes4/assets/images/16.jpg', category: 'Shoes' },
-  { id: 10, name: 'Combat Boots', price: 110, rating: 4.9, image: '/Nolantes4/assets/images/17.jpg', category: 'Boots' },
-  { id: 11, name: 'White Sneakers', price: 80, rating: 4.7, image: '/Nolantes4/assets/images/18.jpg', category: 'Shoes' },
-  { id: 12, name: 'Knee-High Boots', price: 120, rating: 4.8, image: '/Nolantes4/assets/images/19.jpg', category: 'Boots' },
-  { id: 13, name: 'Gold High Heels', price: 85, rating: 4.6, image: '/Nolantes4/assets/images/20.jpg', category: 'High Heels' },
-  { id: 14, name: 'Suede Loafers', price: 70, rating: 4.5, image: '/Nolantes4/assets/images/21.jpg', category: 'Loafers' },
+  { id: 1, name: 'Nike Air Max', price: 85, rating: 4.8, category: 'Shoes' },
+  { id: 2, name: 'Adidas Sneakers', price: 85, rating: 4.8, category: 'Shoes' },
+  { id: 3, name: 'Black Stiletto Heels', price: 85, rating: 4.8, category: 'High Heels' },
+  { id: 4, name: 'Casual Loafers', price: 85, rating: 4.8, category: 'Loafers' },
+  { id: 5, name: 'Puma Running Shoes', price: 90, rating: 4.7, category: 'Shoes' },
+  { id: 6, name: 'Ankle Boots', price: 100, rating: 4.9, category: 'Boots' },
+  { id: 7, name: 'Red High Heels', price: 80, rating: 4.6, category: 'High Heels' },
+  { id: 8, name: 'Brown Loafers', price: 75, rating: 4.5, category: 'Loafers' },
+  { id: 9, name: 'Nike Zoom', price: 95, rating: 4.8, category: 'Shoes' },
+  { id: 10, name: 'Combat Boots', price: 110, rating: 4.9, category: 'Boots' },
+  { id: 11, name: 'White Sneakers', price: 80, rating: 4.7, category: 'Shoes' },
+  { id: 12, name: 'Knee-High Boots', price: 120, rating: 4.8, category: 'Boots' },
+  { id: 13, name: 'Gold High Heels', price: 85, rating: 4.6, category: 'High Heels' },
+  { id: 14, name: 'Suede Loafers', price: 70, rating: 4.5, category: 'Loafers' },
 ];
 
 const banners = [
-  { image: '/Nolantes4/assets/images/1.jpg', text: 'Flat 50% discount on your first order.' },
-  { image: '/Nolantes4/assets/images/2.jpg', text: 'New Arrivals: Up to 30% Off!' },
-  { image: '/Nolantes4/assets/images/3.jpg', text: 'Free Shipping on Orders Over $100!' },
+  { text: 'Flat 50% discount on your first order.' },
+  { text: 'New Arrivals: Up to 30% Off!' },
+  { text: 'Free Shipping on Orders Over $100!' },
 ];
 
 // Components
@@ -76,13 +76,13 @@ const FooterNav = () => `
   </nav>
 `;
 
-const ProductCard = ({ id, name, price, rating, image, isFavorite }) => `
+const ProductCard = ({ id, name, price, rating, isFavorite }) => `
   <article class="relative bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)] product-card">
     <button aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}" class="favorite-btn absolute top-3 right-3 text-${isFavorite ? 'red' : 'gray'}-600 hover:text-red-600" data-id="${id}">
       <i class="${isFavorite ? 'fas' : 'far'} fa-heart text-lg"></i>
     </button>
     <a href="/Nolantes4/product?id=${id}" class="nav-link">
-      <img alt="${name}" class="w-full h-20 object-contain mb-3 drop-shadow-[0_10px_6px_rgba(0,0,0,0.1)]" height="80" src="${image}" width="120"/>
+      <div class="w-full h-20 bg-gray-200 mb-3 flex items-center justify-center text-gray-600">[Image Placeholder]</div>
       <h3 class="font-semibold text-gray-900 text-sm mb-1">${name}</h3>
       <div class="flex items-center justify-between text-xs font-semibold text-gray-900">
         <span>$${price}</span>
@@ -108,7 +108,7 @@ const updateBanner = () => {
           <p class="text-white text-sm font-semibold leading-tight">${banner.text}</p>
           <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
         </div>
-        <img alt="Banner image" class="absolute right-4 top-1/2 -translate-y-1/2 w-24 h-24 object-contain" src="${banner.image}" style="filter: drop-shadow(0 10px 6px rgba(0,0,0,0.1));"/>
+        <div class="w-24 h-24 bg-gray-200 flex items-center justify-center text-gray-600">[Banner Placeholder]</div>
       </div>
     `).join('');
     const dots = document.querySelector('.banner-dots');
@@ -137,7 +137,7 @@ const renderHome = () => {
               <p class="text-white text-sm font-semibold leading-tight">${banner.text}</p>
               <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
             </div>
-            <img alt="Banner image" class="absolute right-4 top-1/2 -translate-y-1/2 w-24 h-24 object-contain" src="${banner.image}" style="filter: drop-shadow(0 10px 6px rgba(0,0,0,0.1));"/>
+            <div class="w-24 h-24 bg-gray-200 flex items-center justify-center text-gray-600">[Banner Placeholder]</div>
           </div>
         `).join('')}
       </div>
@@ -156,16 +156,16 @@ const renderHome = () => {
           <span>All</span>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'High Heels' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="High Heels">
-          <img alt="High Heels icon" class="object-contain" height="20" src="/Nolantes4/assets/images/8.jpg" width="20"/>
+          <span>HH</span>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Shoes' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Shoes">
-          <img alt="Running Shoes icon" class="object-contain" height="20" src="/Nolantes4/assets/images/9.jpg" width="20"/>
+          <span>S</span>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Loafers' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Loafers">
-          <img alt="Loafers icon" class="object-contain" height="20" src="/Nolantes4/assets/images/10.jpg" width="20"/>
+          <span>L</span>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Boots' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Boots">
-          <img alt="Boots icon" class="object-contain" height="20" src="/Nolantes4/assets/images/11.jpg" width="20"/>
+          <span>B</span>
         </button>
       </nav>
       <section class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -187,7 +187,7 @@ const renderProductDetails = () => {
         <button aria-label="${favorites.includes(product.id) ? 'Remove from favorites' : 'Add to favorites'}" class="favorite-btn absolute top-3 right-3 text-${favorites.includes(product.id) ? 'red' : 'gray'}-600 hover:text-red-600" data-id="${product.id}">
           <i class="${favorites.includes(product.id) ? 'fas' : 'far'} fa-heart text-lg"></i>
         </button>
-        <img alt="${product.name}" class="w-full h-40 object-contain mb-3 drop-shadow-[0_10px_6px_rgba(0,0,0,0.1)]" src="${product.image}"/>
+        <div class="w-full h-40 bg-gray-200 mb-3 flex items-center justify-center text-gray-600">[Product Image Placeholder]</div>
         <h2 class="font-bold text-lg text-gray-900 mb-2">${product.name}</h2>
         <p class="text-gray-600 text-sm mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <div class="flex items-center justify-between text-sm font-semibold text-gray-900 mb-3">
@@ -224,7 +224,7 @@ const renderCart = () => {
         ${cartItems.length === 0 ? '<p class="text-gray-600">Your cart is empty.</p>' : cartItems.map(item => `
           <div class="cart-item flex items-center justify-between bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
             <div class="flex items-center space-x-3">
-              <img alt="${item.name}" class="w-16 h-16 object-contain" src="${item.image}"/>
+              <div class="w-16 h-16 bg-gray-200 flex items-center justify-center text-gray-600">[Item Placeholder]</div>
               <div>
                 <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
                 <p class="text-gray-600 text-xs">$${item.price}</p>
