@@ -1,25 +1,25 @@
 // Data
 const products = [
-  { id: 1, name: 'Nike Air Max', price: 85, rating: 4.8, image: 'public/assets/images/nike-shoe.jpg', category: 'Shoes' },
-  { id: 2, name: 'Adidas Sneakers', price: 85, rating: 4.8, image: 'public/assets/images/sneakers-ft.jpg', category: 'Shoes' },
-  { id: 3, name: 'Black Stiletto Heels', price: 85, rating: 4.8, image: 'public/assets/images/black-heels.jpg', category: 'High Heels' },
-  { id: 4, name: 'Casual Loafers', price: 85, rating: 4.8, image: 'public/assets/images/casual-shoes.jpg', category: 'Loafers' },
-  { id: 5, name: 'Puma Running Shoes', price: 90, rating: 4.7, image: 'public/assets/images/product5.jpg', category: 'Shoes' },
-  { id: 6, name: 'Ankle Boots', price: 100, rating: 4.9, image: 'public/assets/images/product6.jpg', category: 'Boots' },
-  { id: 7, name: 'Red High Heels', price: 80, rating: 4.6, image: 'public/assets/images/product7.jpg', category: 'High Heels' },
-  { id: 8, name: 'Brown Loafers', price: 75, rating: 4.5, image: 'public/assets/images/product8.jpg', category: 'Loafers' },
-  { id: 9, name: 'Nike Zoom', price: 95, rating: 4.8, image: 'public/assets/images/product9.jpg', category: 'Shoes' },
-  { id: 10, name: 'Combat Boots', price: 110, rating: 4.9, image: 'public/assets/images/product10.jpg', category: 'Boots' },
-  { id: 11, name: 'White Sneakers', price: 80, rating: 4.7, image: 'public/assets/images/product11.jpg', category: 'Shoes' },
-  { id: 12, name: 'Knee-High Boots', price: 120, rating: 4.8, image: 'public/assets/images/product12.jpg', category: 'Boots' },
-  { id: 13, name: 'Gold High Heels', price: 85, rating: 4.6, image: 'public/assets/images/product13.jpg', category: 'High Heels' },
-  { id: 14, name: 'Suede Loafers', price: 70, rating: 4.5, image: 'public/assets/images/product14.jpg', category: 'Loafers' },
+  { id: 1, name: 'Nike Air Max', price: 85, rating: 4.8, image: 'public/assets/images/4.jpg', category: 'Shoes' },
+  { id: 2, name: 'Adidas Sneakers', price: 85, rating: 4.8, image: 'public/assets/images/5.jpg', category: 'Shoes' },
+  { id: 3, name: 'Black Stiletto Heels', price: 85, rating: 4.8, image: 'public/assets/images/6.jpg', category: 'High Heels' },
+  { id: 4, name: 'Casual Loafers', price: 85, rating: 4.8, image: 'public/assets/images/7.jpg', category: 'Loafers' },
+  { id: 5, name: 'Puma Running Shoes', price: 90, rating: 4.7, image: 'public/assets/images/12.jpg', category: 'Shoes' },
+  { id: 6, name: 'Ankle Boots', price: 100, rating: 4.9, image: 'public/assets/images/13.jpg', category: 'Boots' },
+  { id: 7, name: 'Red High Heels', price: 80, rating: 4.6, image: 'public/assets/images/14.jpg', category: 'High Heels' },
+  { id: 8, name: 'Brown Loafers', price: 75, rating: 4.5, image: 'public/assets/images/15.jpg', category: 'Loafers' },
+  { id: 9, name: 'Nike Zoom', price: 95, rating: 4.8, image: 'public/assets/images/16.jpg', category: 'Shoes' },
+  { id: 10, name: 'Combat Boots', price: 110, rating: 4.9, image: 'public/assets/images/17.jpg', category: 'Boots' },
+  { id: 11, name: 'White Sneakers', price: 80, rating: 4.7, image: 'public/assets/images/18.jpg', category: 'Shoes' },
+  { id: 12, name: 'Knee-High Boots', price: 120, rating: 4.8, image: 'public/assets/images/19.jpg', category: 'Boots' },
+  { id: 13, name: 'Gold High Heels', price: 85, rating: 4.6, image: 'public/assets/images/20.jpg', category: 'High Heels' },
+  { id: 14, name: 'Suede Loafers', price: 70, rating: 4.5, image: 'public/assets/images/21.jpg', category: 'Loafers' },
 ];
 
 const banners = [
-  { image: 'public/assets/images/sneaker-banner.jpg', text: 'Flat 50% discount on your first order.' },
-  { image: 'public/assets/images/banner2.jpg', text: 'New Arrivals: Up to 30% Off!' },
-  { image: 'public/assets/images/banner3.jpg', text: 'Free Shipping on Orders Over $100!' },
+  { image: 'public/assets/images/1.jpg', text: 'Flat 50% discount on your first order.' },
+  { image: 'public/assets/images/2.jpg', text: 'New Arrivals: Up to 30% Off!' },
+  { image: 'public/assets/images/3.jpg', text: 'Free Shipping on Orders Over $100!' },
 ];
 
 // Components
@@ -53,7 +53,7 @@ const Header = () => `
 `;
 
 const FooterNav = () => `
-  <nav class="bg-[#0F172A] flex justify-around items-center py-3 w-full">
+  <nav class="footer-nav bg-[#0F172A] flex justify-around items-center py-3 w-full">
     <a href="/" class="nav-link flex flex-col items-center text-white text-xs font-semibold flex-1">
       <i class="fas fa-home text-lg text-[#3B82F6]"></i>
       <span class="mt-1">Home</span>
@@ -149,23 +149,22 @@ const renderHome = () => {
           <span>All</span>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'High Heels' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="High Heels">
-          <img alt="High Heels icon" class="object-contain" height="20" src="public/assets/images/high-heel-icon.jpg" width="20"/>
+          <img alt="High Heels icon" class="object-contain" height="20" src="public/assets/images/8.jpg" width="20"/>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Shoes' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Shoes">
-          <img alt="Running Shoes icon" class="object-contain" height="20" src="public/assets/images/running-shoes-icon.jpg" width="20"/>
+          <img alt="Running Shoes icon" class="object-contain" height="20" src="public/assets/images/9.jpg" width="20"/>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Loafers' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Loafers">
-          <img alt="Loafers icon" class="object-contain" height="20" src="public/assets/images/loafers-icon.jpg" width="20"/>
+          <img alt="Loafers icon" class="object-contain" height="20" src="public/assets/images/10.jpg" width="20"/>
         </button>
         <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Boots' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Boots">
-          <img alt="Boots icon" class="object-contain" height="20" src="public/assets/images/boots-icon.jpg" width="20"/>
+          <img alt="Boots icon" class="object-contain" height="20" src="public/assets/images/11.jpg" width="20"/>
         </button>
       </nav>
       <section class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         ${filteredProducts.length ? filteredProducts.map(product => ProductCard({ ...product, isFavorite: favorites.includes(product.id) })).join('') : '<p class="text-gray-600 col-span-full">No products found.</p>'}
       </section>
     </div>
-    ${FooterNav()}
   `;
 };
 
@@ -194,7 +193,6 @@ const renderProductDetails = () => {
         <button class="add-to-cart w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg" data-id="${product.id}">Add to Cart</button>
       </section>
     </div>
-    ${FooterNav()}
   `;
 };
 
@@ -235,10 +233,9 @@ const renderCart = () => {
       </section>
       <div class="mt-6">
         <p class="font-semibold text-gray-900">Total: $${total.toFixed(2)}</p>
-        <a href="https://wa.me/+1234567890?text=${generateWhatsAppMessage()}" class="w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg mt-4 inline-block text-center ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${cartItems.length === 0 ? 'disabled' : ''}>Checkout via WhatsApp</a>
+        <a href="https://wa.me/6285156779923?text=${generateWhatsAppMessage()}" class="w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg mt-4 inline-block text-center ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${cartItems.length === 0 ? 'disabled' : ''}>Checkout via WhatsApp</a>
       </div>
     </div>
-    ${FooterNav()}
   `;
 };
 
@@ -263,7 +260,6 @@ const renderProfile = () => `
       <p class="text-gray-600 text-sm">No orders yet.</p>
     </section>
   </div>
-  ${FooterNav()}
 `;
 
 const renderLogin = () => `
@@ -284,7 +280,6 @@ const renderLogin = () => `
       </form>
     </section>
   </div>
-  ${FooterNav()}
 `;
 
 const renderAlerts = () => `
@@ -295,7 +290,6 @@ const renderAlerts = () => `
       <p class="text-gray-600">You have 1 new notification: New arrivals are here!</p>
     </section>
   </div>
-  ${FooterNav()}
 `;
 
 // Router
@@ -312,6 +306,7 @@ function router() {
   const path = window.location.pathname;
   const render = routes[path] || routes['/'];
   document.getElementById('app').innerHTML = render();
+  document.getElementById('footer').innerHTML = FooterNav(); // Ensure footer is rendered on every page
   attachEventListeners();
 }
 
