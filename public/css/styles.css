@@ -48,4 +48,32 @@ body {
   .max-w-sm {
     max-width: 640px;
   }
+  .grid-cols-2 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .max-w-sm {
+    max-width: 1024px;
+  }
+  .grid-cols-2 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Category navigation */
+.categories-nav {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Footer responsiveness */
+.footer-nav {
+  padding: 0.5rem;
+}
+
+.footer-nav a {
+  flex: 1;
+  text-align: center;
 }
