@@ -308,10 +308,16 @@ const routes = {
 };
 
 function router() {
+  const app = document.getElementById('app');
+  const footer = document.getElementById('footer');
+  if (!app || !footer) {
+    console.error('App or footer element not found');
+    return;
+  }
   const path = window.location.pathname;
   const render = routes[path] || routes['/'];
-  document.getElementById('app').innerHTML = render();
-  document.getElementById('footer').innerHTML = FooterNav(); // Ensure footer is rendered on every page
+  app.innerHTML = render();
+  footer.innerHTML = FooterNav();
   attachEventListeners();
 }
 
@@ -433,3 +439,4 @@ function attachEventListeners() {
 
 window.addEventListener('popstate', router);
 document.addEventListener('DOMContentLoaded', router);
+console.log("Script loaded"); // Debug log
