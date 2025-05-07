@@ -1,31 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shoe E-Commerce</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Shoes</title>
+  <base href="/"> <!-- Pastikan base href diatur ke root -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/styles.css"> <!-- Gunakan path relatif -->
 </head>
-<body>
-  <header>
-    <h1>Shoe Store</h1>
-  </header>
-
-  <main>
-    <section class="product-selector">
-      <button onclick="addToCart('Sneakers', 50)">Sneakers (50)</button>
-      <button onclick="addToCart('Boots', 80)">Boots (80)</button>
-      <button onclick="addToCart('Loafers', 60)">Loafers (60)</button>
-    </section>
-
-    <section class="cart">
-      <h2>Cart</h2>
-      <ul id="cart-items"></ul>
-      <p class="total">Total: $<span id="total">0</span></p>
-      <button onclick="checkout()" class="checkout-btn">Checkout</button>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
+<body class="bg-white flex flex-col min-h-screen">
+  <div id="app" class="flex-1 overflow-y-auto">
+    <!-- Konten akan dirender di sini -->
+  </div>
+  <footer id="footer" class="sticky-footer"></footer>
+  <script src="js/main.js"></script> <!-- Gunakan path relatif -->
 </body>
 </html>
