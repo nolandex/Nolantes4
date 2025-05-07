@@ -93,15 +93,15 @@ const ProductCard = ({ id, name, price, isFavorite, image, isLarge = false }) =>
   </article>
 `;
 
-const PaymentModal = ({ product, price, onClose }) => `
+const PaymentModal = ({ product, price }) => `
   <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
       <!-- Header -->
       <div class="bg-blue-600 p-6 text-white">
         <div class="flex justify-between items-center">
           <div>
-            <h2 class="text-xl font-bold">Pembayaran</h2>
-            <p class="text-blue-100 text-sm mt-1">${product}</p>
+            <h2 class="text-xl font-bold" id="modalPlan">Pembayaran</h2>
+            <p class="text-blue-100 text-sm mt-1" id="modalProduct">${product}</p>
           </div>
           <button id="closeModal" class="text-white hover:text-blue-200">
             <i class="fas fa-times"></i>
@@ -117,12 +117,14 @@ const PaymentModal = ({ product, price, onClose }) => `
             <p class="text-gray-500 text-sm">Termasuk PPN 11%</p>
           </div>
           <div class="text-right">
-            <p class="text-gray-500 line-through text-sm">${typeof price === 'number' ? `Rp${(price * 1.67).toLocaleString('id-ID')}` : 'N/A'}</p>
-            <p class="text-blue-600 font-bold text-xl">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</p>
+            <p class="text-gray-500 line-through text-sm" id="modalOldPrice">${typeof price === 'number' ? `Rp${(price * 1.67).toLocaleString('id-ID')}` : 'N/A'}</p>
+            <p class="text-blue-600 font-bold text-xl" id="modalAmount">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</p>
           </div>
         </div>
+
         <!-- Payment Methods -->
         <h3 class="text-lg font-bold mb-4">Metode Pembayaran</h3>
+        
         <div class="space-y-3 mb-6">
           <!-- QRIS -->
           <div class="payment-method-container">
@@ -135,21 +137,25 @@ const PaymentModal = ({ product, price, onClose }) => `
               </div>
               <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
             </div>
+            
             <div class="payment-details">
               <div class="payment-details-content">
                 <div class="text-center mb-4">
                   <div class="qr-code mx-auto w-48 h-48 border-2 border-dashed border-gray-300 rounded-lg mb-3"></div>
                   <p class="text-sm text-gray-500">Scan QR code menggunakan aplikasi mobile banking atau e-wallet</p>
                 </div>
+                
                 <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4">
                   <p><i class="fas fa-info-circle mr-2"></i> QR code akan kadaluarsa dalam 24 jam</p>
                 </div>
+                
                 <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
                   <i class="fas fa-check-circle mr-2"></i> Saya Sudah Bayar
                 </button>
               </div>
             </div>
           </div>
+          
           <!-- Virtual Account -->
           <div class="payment-method-container">
             <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="virtual_account">
@@ -161,6 +167,7 @@ const PaymentModal = ({ product, price, onClose }) => `
               </div>
               <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
             </div>
+            
             <div class="payment-details">
               <div class="payment-details-content">
                 <h4 class="font-medium mb-3 text-center">Pilih Bank</h4>
@@ -175,6 +182,7 @@ const PaymentModal = ({ product, price, onClose }) => `
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/BNI_logo.svg/1200px-BNI_logo.svg.png" alt="BNI" class="method-logo">
                   </div>
                 </div>
+                
                 <div class="bg-gray-50 p-4 rounded-lg mb-4">
                   <div class="mb-3">
                     <label class="block text-gray-500 text-sm mb-1">Nomor Virtual Account</label>
@@ -190,15 +198,18 @@ const PaymentModal = ({ product, price, onClose }) => `
                     <span class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
                   </div>
                 </div>
+                
                 <div class="bg-yellow-50 p-3 rounded-lg text-sm text-yellow-800 mb-4">
                   <p><i class="fas fa-exclamation-circle mr-2"></i> Transfer tepat sesuai nominal untuk proses otomatis</p>
                 </div>
+                
                 <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
                   <i class="fas fa-check-circle mr-2"></i> Konfirmasi Pembayaran
                 </button>
               </div>
             </div>
           </div>
+          
           <!-- E-Wallets -->
           <div class="payment-method-container">
             <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="ewallet">
@@ -210,6 +221,7 @@ const PaymentModal = ({ product, price, onClose }) => `
               </div>
               <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
             </div>
+            
             <div class="payment-details">
               <div class="payment-details-content">
                 <h4 class="font-medium mb-3 text-center">Pilih E-Wallet</h4>
@@ -224,6 +236,7 @@ const PaymentModal = ({ product, price, onClose }) => `
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/OVO_logo.svg/1200px-OVO_logo.svg.png" alt="OVO" class="method-logo">
                   </div>
                 </div>
+                
                 <div class="bg-gray-50 p-4 rounded-lg mb-4">
                   <div class="mb-3">
                     <label class="block text-gray-500 text-sm mb-1">Nomor E-Wallet</label>
@@ -239,15 +252,18 @@ const PaymentModal = ({ product, price, onClose }) => `
                     <span class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
                   </div>
                 </div>
+                
                 <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4">
                   <p><i class="fas fa-info-circle mr-2"></i> Anda akan diarahkan ke aplikasi untuk menyelesaikan pembayaran</p>
                 </div>
+                
                 <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
                   <i class="fas fa-arrow-right mr-2"></i> Lanjut ke Pembayaran
                 </button>
               </div>
             </div>
           </div>
+          
           <!-- Retail Outlets -->
           <div class="payment-method-container">
             <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="retail">
@@ -259,6 +275,7 @@ const PaymentModal = ({ product, price, onClose }) => `
               </div>
               <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
             </div>
+            
             <div class="payment-details">
               <div class="payment-details-content">
                 <h4 class="font-medium mb-3 text-center">Pilih Retail</h4>
@@ -270,6 +287,7 @@ const PaymentModal = ({ product, price, onClose }) => `
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Indomaret_logo.svg/1200px-Indomaret_logo.svg.png" alt="Indomaret" class="method-logo">
                   </div>
                 </div>
+                
                 <div class="bg-gray-50 p-4 rounded-lg mb-4">
                   <div class="mb-3">
                     <label class="block text-gray-500 text-sm mb-1">Kode Pembayaran</label>
@@ -285,15 +303,18 @@ const PaymentModal = ({ product, price, onClose }) => `
                     <span class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
                   </div>
                 </div>
+                
                 <div class="bg-yellow-50 p-3 rounded-lg text-sm text-yellow-800 mb-4">
                   <p><i class="fas fa-exclamation-circle mr-2"></i> Kode pembayaran akan kadaluarsa dalam 24 jam</p>
                 </div>
+                
                 <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
                   <i class="fas fa-check-circle mr-2"></i> Konfirmasi
                 </button>
               </div>
             </div>
           </div>
+          
           <!-- Credit Card -->
           <div class="payment-method-container">
             <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="credit_card">
@@ -305,6 +326,7 @@ const PaymentModal = ({ product, price, onClose }) => `
               </div>
               <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
             </div>
+            
             <div class="payment-details">
               <div class="payment-details-content">
                 <div class="mb-4">
@@ -318,16 +340,19 @@ const PaymentModal = ({ product, price, onClose }) => `
                     <input type="text" placeholder="Nama di Kartu" class="w-full px-4 py-2 border rounded-lg">
                   </div>
                 </div>
+                
                 <div class="flex items-center mb-4">
                   <input type="checkbox" id="saveCard" class="mr-2">
                   <label for="saveCard" class="text-sm text-gray-600">Simpan kartu untuk pembayaran berikutnya</label>
                 </div>
+                
                 <div class="bg-gray-50 p-4 rounded-lg mb-4">
                   <div class="flex justify-between">
                     <span class="text-gray-500">Jumlah Pembayaran</span>
                     <span class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
                   </div>
                 </div>
+                
                 <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
                   <i class="fas fa-lock mr-2"></i> Bayar Sekarang
                 </button>
@@ -338,7 +363,8 @@ const PaymentModal = ({ product, price, onClose }) => `
       </div>
     </div>
   </div>
-  <!-- Processing Modal -->
+  
+  <!-- Payment Processing Modal -->
   <div id="processingModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-xl max-w-md w-full p-6 text-center">
       <div class="mb-4">
@@ -350,6 +376,7 @@ const PaymentModal = ({ product, price, onClose }) => `
       <p class="text-gray-600">Harap tunggu sebentar...</p>
     </div>
   </div>
+  
   <!-- Success Modal -->
   <div id="successModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-xl max-w-md w-full p-6 text-center">
@@ -372,16 +399,218 @@ const PaymentModal = ({ product, price, onClose }) => `
           <span id="successAmount" class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
         </div>
       </div>
+      
       <button id="closeSuccessModal" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
         Selesai
       </button>
     </div>
   </div>
+  
   <!-- Toast Notification -->
   <div id="toast" class="toast">
     <i class="fas fa-copy mr-2"></i> Nomor disalin!
   </div>
 `;
+
+// Payment Modal Script (verbatim from provided code)
+const PaymentModalScript = () => {
+  const script = document.createElement('script');
+  script.textContent = `
+    let selectedPlan = {
+      name: "Pembayaran",
+      amount: "${typeof window.currentPrice === 'number' ? window.currentPrice : 'N/A'}",
+      product: "${window.currentProduct || 'Layanan Premium'}"
+    };
+    let selectedMethod = null;
+
+    function formatRupiah(amount) {
+      return 'Rp' + parseInt(amount).toLocaleString('id-ID');
+    }
+
+    window.addEventListener('load', function() {
+      document.getElementById('modalPlan').textContent = selectedPlan.name;
+      document.getElementById('modalProduct').textContent = selectedPlan.product;
+      document.getElementById('modalAmount').textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice) : window.currentPrice;
+      document.getElementById('modalOldPrice').textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice * 1.67) : 'N/A';
+      
+      document.querySelectorAll('.payment-details').forEach(detail => {
+        detail.classList.remove('active');
+      });
+      
+      document.querySelectorAll('.payment-method i.fa-chevron-down').forEach(icon => {
+        icon.classList.remove('rotate-180');
+      });
+      
+      document.getElementById('paymentModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', function() {
+        const container = this.closest('.payment-method-container');
+        const details = container.querySelector('.payment-details');
+        const chevron = this.querySelector('i.fa-chevron-down');
+        
+        document.querySelectorAll('.payment-details').forEach(d => {
+          if (d !== details) {
+            d.classList.remove('active');
+          }
+        });
+        
+        document.querySelectorAll('.payment-method i.fa-chevron-down').forEach(icon => {
+          if (icon !== chevron) {
+            icon.classList.remove('rotate-180');
+          }
+        });
+        
+        details.classList.toggle('active');
+        chevron.classList.toggle('rotate-180');
+        
+        selectedMethod = this.getAttribute('data-method');
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.bank-option')) {
+        const option = e.target.closest('.bank-option');
+        const container = option.closest('.payment-details');
+        const vaNumber = container.querySelector('.va-number');
+        const copyBtn = container.querySelector('.copy-btn');
+        
+        container.querySelectorAll('.bank-option').forEach(opt => {
+          opt.classList.remove('bg-blue-100');
+        });
+        
+        option.classList.add('bg-blue-100');
+        
+        const bank = option.getAttribute('data-bank');
+        const vaNumbers = {
+          'bca': '8888801234567890',
+          'mandiri': '8888802345678901',
+          'bni': '8888803456789012'
+        };
+        
+        if (vaNumbers[bank]) {
+          vaNumber.textContent = vaNumbers[bank];
+          copyBtn.setAttribute('onclick', "copyToClipboard('" + vaNumbers[bank] + "', 'Nomor VA')");
+        }
+      }
+      
+      if (e.target.closest('.payment-option')) {
+        const option = e.target.closest('.payment-option');
+        const container = option.closest('.payment-details');
+        
+        if (container.querySelector('.ewallet-number')) {
+          const ewalletNumber = container.querySelector('.ewallet-number');
+          const copyBtn = container.querySelector('.copy-btn');
+          
+          container.querySelectorAll('.payment-option').forEach(opt => {
+            opt.classList.remove('bg-blue-100');
+          });
+          
+          option.classList.add('bg-blue-100');
+          
+          const wallet = option.getAttribute('data-wallet');
+          const numbers = {
+            'dana': '081234567890',
+            'gopay': '081987654321',
+            'ovo': '082345678901'
+          };
+          
+          if (numbers[wallet]) {
+            ewalletNumber.textContent = numbers[wallet];
+            copyBtn.setAttribute('onclick', "copyToClipboard('" + numbers[wallet] + "', 'Nomor e-wallet')");
+          }
+        }
+        
+        if (container.querySelector('.retail-code')) {
+          const retailCode = container.querySelector('.retail-code');
+          const copyBtn = container.querySelector('.copy-btn');
+          
+          container.querySelectorAll('.payment-option').forEach(opt => {
+            opt.classList.remove('bg-blue-100');
+          });
+          
+          option.classList.add('bg-blue-100');
+          
+          const retail = option.getAttribute('data-retail');
+          const codes = {
+            'alfamart': 'ALFA' + Math.floor(100000 + Math.random() * 900000),
+            'indomaret': 'INDO' + Math.floor(100000 + Math.random() * 900000)
+          };
+          
+          if (codes[retail]) {
+            retailCode.textContent = codes[retail];
+            copyBtn.setAttribute('onclick', "copyToClipboard('" + codes[retail] + "', 'Kode pembayaran')");
+          }
+        }
+      }
+      
+      if (e.target.closest('.confirm-payment')) {
+        processPayment();
+      }
+    });
+
+    function processPayment() {
+      document.getElementById('paymentModal').classList.add('hidden');
+      document.getElementById('processingModal').classList.remove('hidden');
+      
+      setTimeout(() => {
+        document.getElementById('loadingBar').style.width = '100%';
+      }, 100);
+      
+      setTimeout(() => {
+        document.getElementById('processingModal').classList.add('hidden');
+        
+        document.getElementById('successAmount').textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice) : window.currentPrice;
+        document.getElementById('successMethod').textContent = getMethodName(selectedMethod);
+        document.getElementById('invoiceNumber').textContent = 'INV-' + Math.floor(1000 + Math.random() * 9000);
+        
+        document.getElementById('successModal').classList.remove('hidden');
+      }, 1500);
+    }
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+      document.getElementById('paymentModal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+    
+    document.getElementById('closeSuccessModal').addEventListener('click', () => {
+      document.getElementById('successModal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+
+    function getMethodName(method) {
+      const methods = {
+        'qris': 'QRIS',
+        'virtual_account': 'Virtual Account',
+        'bank_transfer': 'Transfer Bank',
+        'ewallet': 'E-Wallet',
+        'retail': 'Retail',
+        'credit_card': 'Kartu Kredit'
+      };
+      return methods[method] || 'Pembayaran';
+    }
+
+    function copyToClipboard(text, label) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(\`\${label} disalin!\`);
+      }).catch(err => {
+        console.error('Gagal menyalin: ', err);
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerHTML = \`<i class="fas fa-copy mr-2"></i> \${message}\`;
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2000);
+    }
+  `;
+  return script;
+};
 
 // Slideshow Logic
 let currentBanner = parseInt(localStorage.getItem('currentBanner') || '0');
@@ -415,7 +644,6 @@ const renderHome = () => {
   const selectedCategory = localStorage.getItem('selectedCategory') || 'All';
   let filteredProducts = selectedCategory === 'All' ? products : products.filter(p => p.category === selectedCategory);
 
-  // Limit products based on category
   if (selectedCategory === 'Website') {
     filteredProducts = filteredProducts.slice(0, 5);
   } else if (selectedCategory === 'Chatbot') {
@@ -637,158 +865,32 @@ function attachEventListeners() {
       const id = parseInt(btn.dataset.id);
       const name = btn.dataset.name;
       const price = btn.dataset.price === 'Klik' ? 'Klik' : parseInt(btn.dataset.price);
+      
+      // Store product and price globally for the script
+      window.currentProduct = name;
+      window.currentPrice = price;
+
       const modalContainer = document.createElement('div');
       modalContainer.innerHTML = PaymentModal({ product: name, price: price });
+      modalContainer.appendChild(PaymentModalScript());
       document.body.appendChild(modalContainer);
       document.body.style.overflow = 'hidden';
 
-      // Payment Modal Scripts
-      let selectedMethod = null;
-
-      function formatRupiah(amount) {
-        return 'Rp' + parseInt(amount).toLocaleString('id-ID');
-      }
-
-      function copyToClipboard(text, label) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast(`${label} disalin!`);
-        }).catch(err => {
-          console.error('Gagal menyalin: ', err);
+      // Override close modal to clean up
+      const closeModal = document.getElementById('closeModal');
+      const closeSuccessModal = document.getElementById('closeSuccessModal');
+      if (closeModal) {
+        closeModal.addEventListener('click', () => {
+          modalContainer.remove();
+          document.body.style.overflow = 'auto';
         });
       }
-
-      function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.innerHTML = `<i class="fas fa-copy mr-2"></i> ${message}`;
-        toast.style.display = 'flex';
-        setTimeout(() => {
-          toast.style.display = 'none';
-        }, 2000);
-      }
-
-      function getMethodName(method) {
-        const methods = {
-          'qris': 'QRIS',
-          'virtual_account': 'Virtual Account',
-          'ewallet': 'E-Wallet',
-          'retail': 'Retail',
-          'credit_card': 'Kartu Kredit'
-        };
-        return methods[method] || 'Pembayaran';
-      }
-
-      function processPayment() {
-        document.getElementById('paymentModal').classList.add('hidden');
-        document.getElementById('processingModal').classList.remove('hidden');
-        setTimeout(() => {
-          document.getElementById('loadingBar').style.width = '100%';
-        }, 100);
-        setTimeout(() => {
-          document.getElementById('processingModal').classList.add('hidden');
-          document.getElementById('successAmount').textContent = typeof price === 'number' ? formatRupiah(price) : price;
-          document.getElementById('successMethod').textContent = getMethodName(selectedMethod);
-          document.getElementById('invoiceNumber').textContent = 'INV-' + Math.floor(1000 + Math.random() * 9000);
-          document.getElementById('successModal').classList.remove('hidden');
-        }, 1500);
-      }
-
-      document.querySelectorAll('.payment-method').forEach(method => {
-        method.addEventListener('click', function() {
-          const container = this.closest('.payment-method-container');
-          const details = container.querySelector('.payment-details');
-          const chevron = this.querySelector('i.fa-chevron-down');
-          document.querySelectorAll('.payment-details').forEach(d => {
-            if (d !== details) {
-              d.classList.remove('active');
-            }
-          });
-          document.querySelectorAll('.payment-method i.fa-chevron-down').forEach(icon => {
-            if (icon !== chevron) {
-              icon.classList.remove('rotate-180');
-            }
-          });
-          details.classList.toggle('active');
-          chevron.classList.toggle('rotate-180');
-          selectedMethod = this.getAttribute('data-method');
+      if (closeSuccessModal) {
+        closeSuccessModal.addEventListener('click', () => {
+          modalContainer.remove();
+          document.body.style.overflow = 'auto';
         });
-      });
-
-      document.addEventListener('click', function(e) {
-        if (e.target.closest('.bank-option')) {
-          const option = e.target.closest('.bank-option');
-          const container = option.closest('.payment-details');
-          const vaNumber = container.querySelector('.va-number');
-          const copyBtn = container.querySelector('.copy-btn');
-          container.querySelectorAll('.bank-option').forEach(opt => {
-            opt.classList.remove('bg-blue-100');
-          });
-          option.classList.add('bg-blue-100');
-          const bank = option.getAttribute('data-bank');
-          const vaNumbers = {
-            'bca': '8888801234567890',
-            'mandiri': '8888802345678901',
-            'bni': '8888803456789012'
-          };
-          if (vaNumbers[bank]) {
-            vaNumber.textContent = vaNumbers[bank];
-            copyBtn.setAttribute('onclick', `copyToClipboard('${vaNumbers[bank]}', 'Nomor VA')`);
-          }
-        }
-        if (e.target.closest('.payment-option')) {
-          const option = e.target.closest('.payment-option');
-          const container = option.closest('.payment-details');
-          if (container.querySelector('.ewallet-number')) {
-            const ewalletNumber = container.querySelector('.ewallet-number');
-            const copyBtn = container.querySelector('.copy-btn');
-            container.querySelectorAll('.payment-option').forEach(opt => {
-              opt.classList.remove('bg-blue-100');
-            });
-            option.classList.add('bg-blue-100');
-            const wallet = option.getAttribute('data-wallet');
-            const numbers = {
-              'dana': '081234567890',
-              'gopay': '081987654321',
-              'ovo': '082345678901'
-            };
-            if (numbers[wallet]) {
-              ewalletNumber.textContent = numbers[wallet];
-              copyBtn.setAttribute('onclick', `copyToClipboard('${numbers[wallet]}', 'Nomor e-wallet')`);
-            }
-          }
-          if (container.querySelector('.retail-code')) {
-            const retailCode = container.querySelector('.retail-code');
-            const copyBtn = container.querySelector('.copy-btn');
-            container.querySelectorAll('.payment-option').forEach(opt => {
-              opt.classList.remove('bg-blue-100');
-            });
-            option.classList.add('bg-blue-100');
-            const retail = option.getAttribute('data-retail');
-            const codes = {
-              'alfamart': 'ALFA' + Math.floor(100000 + Math.random() * 900000),
-              'indomaret': 'INDO' + Math.floor(100000 + Math.random() * 900000)
-            };
-            if (codes[retail]) {
-              retailCode.textContent = codes[retail];
-              copyBtn.setAttribute('onclick', `copyToClipboard('${codes[retail]}', 'Kode pembayaran')`);
-            }
-          }
-        }
-        if (e.target.closest('.confirm-payment')) {
-          processPayment();
-        }
-      });
-
-      document.getElementById('closeModal').addEventListener('click', () => {
-        document.getElementById('paymentModal').classList.add('hidden');
-        document.body.style.overflow = 'auto';
-        modalContainer.remove();
-      });
-
-      document.getElementById('closeSuccessModal').addEventListener('click', () => {
-        document.getElementById('successModal').classList.add('hidden');
-        document.body.style.overflow = 'auto';
-        modalContainer.remove();
-      });
+      }
     });
   });
 
