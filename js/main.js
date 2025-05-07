@@ -327,7 +327,7 @@ const PaymentModal = ({ product, price }) => `
               <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
             </div>
             
-            <div class="payment-details">
+  <div class="payment-details">
               <div class="payment-details-content">
                 <div class="mb-4">
                   <label class="block text-gray-700 mb-2">Informasi Kartu</label>
@@ -412,205 +412,214 @@ const PaymentModal = ({ product, price }) => `
   </div>
 `;
 
-// Payment Modal Script (verbatim from provided code)
-const PaymentModalScript = () => {
-  const script = document.createElement('script');
-  script.textContent = `
-    let selectedPlan = {
-      name: "Pembayaran",
-      amount: "${typeof window.currentPrice === 'number' ? window.currentPrice : 'N/A'}",
-      product: "${window.currentProduct || 'Layanan Premium'}"
-    };
-    let selectedMethod = null;
+// Payment Modal Logic (moved to static execution)
+let selectedMethod = null;
 
-    function formatRupiah(amount) {
-      return 'Rp' + parseInt(amount).toLocaleString('id-ID');
+function formatRupiah(amount) {
+  return 'Rp' + parseInt(amount).toLocaleString('id-ID');
+}
+
+function copyToClipboard(text, label) {
+  navigator.clipboard.writeText(text).then(() => {
+    showToast(`${label} disalin!`);
+  }).catch(err => {
+    console.error('Gagal menyalin: ', err);
+  });
+}
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  if (toast) {
+    toast.innerHTML = `<i class="fas fa-copy mr-2"></i> ${message}`;
+    toast.style.display = 'flex';
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 2000);
+  }
+}
+
+function getMethodName(method) {
+  const methods = {
+    'qris': 'QRIS',
+    'virtual_account': 'Virtual Account',
+    'bank_transfer': 'Transfer Bank',
+    'ewallet': 'E-Wallet',
+    'retail': 'Retail',
+    'credit_card': 'Kartu Kredit'
+  };
+  return methods[method] || 'Pembayaran';
+}
+
+function processPayment() {
+  const paymentModal = document.getElementById('paymentModal');
+  const processingModal = document.getElementById('processingModal');
+  const successModal = document.getElementById('successModal');
+  const loadingBar = document.getElementById('loadingBar');
+  const successAmount = document.getElementById('successAmount');
+  const successMethod = document.getElementById('successMethod');
+  const invoiceNumber = document.getElementById('invoiceNumber');
+
+  if (paymentModal && processingModal && successModal && loadingBar && successAmount && successMethod && invoiceNumber) {
+    paymentModal.classList.add('hidden');
+    processingModal.classList.remove('hidden');
+    
+    setTimeout(() => {
+      loadingBar.style.width = '100%';
+    }, 100);
+    
+    setTimeout(() => {
+      processingModal.classList.add('hidden');
+      successAmount.textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice) : window.currentPrice;
+      successMethod.textContent = getMethodName(selectedMethod);
+      invoiceNumber.textContent = 'INV-' + Math.floor(1000 + Math.random() * 9000);
+      successModal.classList.remove('hidden');
+    }, 1500);
+  }
+}
+
+function attachPaymentListeners(modalContainer) {
+  const modal = modalContainer.querySelector('#paymentModal');
+  if (!modal) return;
+
+  // Initialize modal content
+  const modalPlan = modal.querySelector('#modalPlan');
+  const modalProduct = modal.querySelector('#modalProduct');
+  const modalAmount = modal.querySelector('#modalAmount');
+  const modalOldPrice = modal.querySelector('#modalOldPrice');
+
+  if (modalPlan && modalProduct && modalAmount && modalOldPrice) {
+    modalPlan.textContent = 'Pembayaran';
+    modalProduct.textContent = window.currentProduct || 'Layanan Premium';
+    modalAmount.textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice) : window.currentPrice;
+    modalOldPrice.textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice * 1.67) : 'N/A';
+  }
+
+  // Payment method toggles
+  modal.querySelectorAll('.payment-method').forEach(method => {
+    method.addEventListener('click', function() {
+      const container = this.closest('.payment-method-container');
+      const details = container.querySelector('.payment-details');
+      const chevron = this.querySelector('i.fa-chevron-down');
+      
+      modal.querySelectorAll('.payment-details').forEach(d => {
+        if (d !== details) {
+          d.classList.remove('active');
+        }
+      });
+      
+      modal.querySelectorAll('.payment-method i.fa-chevron-down').forEach(icon => {
+        if (icon !== chevron) {
+          icon.classList.remove('rotate-180');
+        }
+      });
+      
+      details.classList.toggle('active');
+      chevron.classList.toggle('rotate-180');
+      
+      selectedMethod = this.getAttribute('data-method');
+    });
+  });
+
+  // Bank, e-wallet, and retail options
+  modal.addEventListener('click', function(e) {
+    if (e.target.closest('.bank-option')) {
+      const option = e.target.closest('.bank-option');
+      const container = option.closest('.payment-details');
+      const vaNumber = container.querySelector('.va-number');
+      const copyBtn = container.querySelector('.copy-btn');
+      
+      container.querySelectorAll('.bank-option').forEach(opt => {
+        opt.classList.remove('bg-blue-100');
+      });
+      
+      option.classList.add('bg-blue-100');
+      
+      const bank = option.getAttribute('data-bank');
+      const vaNumbers = {
+        'bca': '8888801234567890',
+        'mandiri': '8888802345678901',
+        'bni': '8888803456789012'
+      };
+      
+      if (vaNumbers[bank]) {
+        vaNumber.textContent = vaNumbers[bank];
+        copyBtn.setAttribute('onclick', `copyToClipboard('${vaNumbers[bank]}', 'Nomor VA')`);
+      }
     }
-
-    window.addEventListener('load', function() {
-      document.getElementById('modalPlan').textContent = selectedPlan.name;
-      document.getElementById('modalProduct').textContent = selectedPlan.product;
-      document.getElementById('modalAmount').textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice) : window.currentPrice;
-      document.getElementById('modalOldPrice').textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice * 1.67) : 'N/A';
+    
+    if (e.target.closest('.payment-option')) {
+      const option = e.target.closest('.payment-option');
+      const container = option.closest('.payment-details');
       
-      document.querySelectorAll('.payment-details').forEach(detail => {
-        detail.classList.remove('active');
-      });
-      
-      document.querySelectorAll('.payment-method i.fa-chevron-down').forEach(icon => {
-        icon.classList.remove('rotate-180');
-      });
-      
-      document.getElementById('paymentModal').classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    });
-
-    document.querySelectorAll('.payment-method').forEach(method => {
-      method.addEventListener('click', function() {
-        const container = this.closest('.payment-method-container');
-        const details = container.querySelector('.payment-details');
-        const chevron = this.querySelector('i.fa-chevron-down');
-        
-        document.querySelectorAll('.payment-details').forEach(d => {
-          if (d !== details) {
-            d.classList.remove('active');
-          }
-        });
-        
-        document.querySelectorAll('.payment-method i.fa-chevron-down').forEach(icon => {
-          if (icon !== chevron) {
-            icon.classList.remove('rotate-180');
-          }
-        });
-        
-        details.classList.toggle('active');
-        chevron.classList.toggle('rotate-180');
-        
-        selectedMethod = this.getAttribute('data-method');
-      });
-    });
-
-    document.addEventListener('click', function(e) {
-      if (e.target.closest('.bank-option')) {
-        const option = e.target.closest('.bank-option');
-        const container = option.closest('.payment-details');
-        const vaNumber = container.querySelector('.va-number');
+      if (container.querySelector('.ewallet-number')) {
+        const ewalletNumber = container.querySelector('.ewallet-number');
         const copyBtn = container.querySelector('.copy-btn');
         
-        container.querySelectorAll('.bank-option').forEach(opt => {
+        container.querySelectorAll('.payment-option').forEach(opt => {
           opt.classList.remove('bg-blue-100');
         });
         
         option.classList.add('bg-blue-100');
         
-        const bank = option.getAttribute('data-bank');
-        const vaNumbers = {
-          'bca': '8888801234567890',
-          'mandiri': '8888802345678901',
-          'bni': '8888803456789012'
+        const wallet = option.getAttribute('data-wallet');
+        const numbers = {
+          'dana': '081234567890',
+          'gopay': '081987654321',
+          'ovo': '082345678901'
         };
         
-        if (vaNumbers[bank]) {
-          vaNumber.textContent = vaNumbers[bank];
-          copyBtn.setAttribute('onclick', "copyToClipboard('" + vaNumbers[bank] + "', 'Nomor VA')");
+        if (numbers[wallet]) {
+          ewalletNumber.textContent = numbers[wallet];
+          copyBtn.setAttribute('onclick', `copyToClipboard('${numbers[wallet]}', 'Nomor e-wallet')`);
         }
       }
       
-      if (e.target.closest('.payment-option')) {
-        const option = e.target.closest('.payment-option');
-        const container = option.closest('.payment-details');
+      if (container.querySelector('.retail-code')) {
+        const retailCode = container.querySelector('.retail-code');
+        const copyBtn = container.querySelector('.copy-btn');
         
-        if (container.querySelector('.ewallet-number')) {
-          const ewalletNumber = container.querySelector('.ewallet-number');
-          const copyBtn = container.querySelector('.copy-btn');
-          
-          container.querySelectorAll('.payment-option').forEach(opt => {
-            opt.classList.remove('bg-blue-100');
-          });
-          
-          option.classList.add('bg-blue-100');
-          
-          const wallet = option.getAttribute('data-wallet');
-          const numbers = {
-            'dana': '081234567890',
-            'gopay': '081987654321',
-            'ovo': '082345678901'
-          };
-          
-          if (numbers[wallet]) {
-            ewalletNumber.textContent = numbers[wallet];
-            copyBtn.setAttribute('onclick', "copyToClipboard('" + numbers[wallet] + "', 'Nomor e-wallet')");
-          }
-        }
+        container.querySelectorAll('.payment-option').forEach(opt => {
+          opt.classList.remove('bg-blue-100');
+        });
         
-        if (container.querySelector('.retail-code')) {
-          const retailCode = container.querySelector('.retail-code');
-          const copyBtn = container.querySelector('.copy-btn');
-          
-          container.querySelectorAll('.payment-option').forEach(opt => {
-            opt.classList.remove('bg-blue-100');
-          });
-          
-          option.classList.add('bg-blue-100');
-          
-          const retail = option.getAttribute('data-retail');
-          const codes = {
-            'alfamart': 'ALFA' + Math.floor(100000 + Math.random() * 900000),
-            'indomaret': 'INDO' + Math.floor(100000 + Math.random() * 900000)
-          };
-          
-          if (codes[retail]) {
-            retailCode.textContent = codes[retail];
-            copyBtn.setAttribute('onclick', "copyToClipboard('" + codes[retail] + "', 'Kode pembayaran')");
-          }
+        option.classList.add('bg-blue-100');
+        
+        const retail = option.getAttribute('data-retail');
+        const codes = {
+          'alfamart': 'ALFA' + Math.floor(100000 + Math.random() * 900000),
+          'indomaret': 'INDO' + Math.floor(100000 + Math.random() * 900000)
+        };
+        
+        if (codes[retail]) {
+          retailCode.textContent = codes[retail];
+          copyBtn.setAttribute('onclick', `copyToClipboard('${codes[retail]}', 'Kode pembayaran')`);
         }
       }
-      
-      if (e.target.closest('.confirm-payment')) {
-        processPayment();
-      }
-    });
-
-    function processPayment() {
-      document.getElementById('paymentModal').classList.add('hidden');
-      document.getElementById('processingModal').classList.remove('hidden');
-      
-      setTimeout(() => {
-        document.getElementById('loadingBar').style.width = '100%';
-      }, 100);
-      
-      setTimeout(() => {
-        document.getElementById('processingModal').classList.add('hidden');
-        
-        document.getElementById('successAmount').textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice) : window.currentPrice;
-        document.getElementById('successMethod').textContent = getMethodName(selectedMethod);
-        document.getElementById('invoiceNumber').textContent = 'INV-' + Math.floor(1000 + Math.random() * 9000);
-        
-        document.getElementById('successModal').classList.remove('hidden');
-      }, 1500);
     }
-
-    document.getElementById('closeModal').addEventListener('click', () => {
-      document.getElementById('paymentModal').classList.add('hidden');
-      document.body.style.overflow = 'auto';
-    });
     
-    document.getElementById('closeSuccessModal').addEventListener('click', () => {
-      document.getElementById('successModal').classList.add('hidden');
+    if (e.target.closest('.confirm-payment')) {
+      processPayment();
+    }
+  });
+
+  // Close buttons
+  const closeModal = modal.querySelector('#closeModal');
+  const closeSuccessModal = modal.querySelector('#closeSuccessModal');
+  
+  if (closeModal) {
+    closeModal.addEventListener('click', () => {
+      modalContainer.remove();
       document.body.style.overflow = 'auto';
     });
-
-    function getMethodName(method) {
-      const methods = {
-        'qris': 'QRIS',
-        'virtual_account': 'Virtual Account',
-        'bank_transfer': 'Transfer Bank',
-        'ewallet': 'E-Wallet',
-        'retail': 'Retail',
-        'credit_card': 'Kartu Kredit'
-      };
-      return methods[method] || 'Pembayaran';
-    }
-
-    function copyToClipboard(text, label) {
-      navigator.clipboard.writeText(text).then(() => {
-        showToast(\`\${label} disalin!\`);
-      }).catch(err => {
-        console.error('Gagal menyalin: ', err);
-      });
-    }
-
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.innerHTML = \`<i class="fas fa-copy mr-2"></i> \${message}\`;
-      toast.style.display = 'flex';
-      setTimeout(() => {
-        toast.style.display = 'none';
-      }, 2000);
-    }
-  `;
-  return script;
-};
+  }
+  
+  if (closeSuccessModal) {
+    closeSuccessModal.addEventListener('click', () => {
+      modalContainer.remove();
+      document.body.style.overflow = 'auto';
+    });
+  }
+}
 
 // Slideshow Logic
 let currentBanner = parseInt(localStorage.getItem('currentBanner') || '0');
@@ -866,31 +875,15 @@ function attachEventListeners() {
       const name = btn.dataset.name;
       const price = btn.dataset.price === 'Klik' ? 'Klik' : parseInt(btn.dataset.price);
       
-      // Store product and price globally for the script
       window.currentProduct = name;
       window.currentPrice = price;
 
       const modalContainer = document.createElement('div');
       modalContainer.innerHTML = PaymentModal({ product: name, price: price });
-      modalContainer.appendChild(PaymentModalScript());
       document.body.appendChild(modalContainer);
       document.body.style.overflow = 'hidden';
 
-      // Override close modal to clean up
-      const closeModal = document.getElementById('closeModal');
-      const closeSuccessModal = document.getElementById('closeSuccessModal');
-      if (closeModal) {
-        closeModal.addEventListener('click', () => {
-          modalContainer.remove();
-          document.body.style.overflow = 'auto';
-        });
-      }
-      if (closeSuccessModal) {
-        closeSuccessModal.addEventListener('click', () => {
-          modalContainer.remove();
-          document.body.style.overflow = 'auto';
-        });
-      }
+      attachPaymentListeners(modalContainer);
     });
   });
 
