@@ -1,23 +1,23 @@
 console.log("Script loaded");
 
-// Data with image paths
+// Data without image paths
 const products = [
-  { id: 1, name: 'Toko Online', price: 25000, category: 'Website', image: 'images/1.jpg' },
-  { id: 2, name: 'Landing Page', price: 25000, category: 'Website', image: 'images/2.jpg' },
-  { id: 3, name: 'Portfolio', price: 25000, category: 'Website', image: 'images/3.jpg' },
-  { id: 4, name: 'Jasa', price: 25000, category: 'Website', image: 'images/4.jpg' },
-  { id: 5, name: 'Profil Bisnis', price: 25000, category: 'Website', image: 'images/5.jpg' },
-  { id: 6, name: 'Chatbot AI', price: 25000, category: 'Chatbot', image: 'images/6.jpg' },
-  { id: 7, name: 'Konten Sosmed 1', price: 25000, category: 'Konten', image: 'images/7.jpg' },
-  { id: 8, name: 'Konten Sosmed 2', price: 25000, category: 'Konten', image: 'images/8.jpg' },
-  { id: 9, name: 'Konten Sosmed 3', price: 25000, category: 'Konten', image: 'images/9.jpg' },
-  { id: 10, name: 'Booster Sosmed', price: 'Klik', category: 'Sosmed Booster', image: 'images/10.jpg' },
+  { id: 1, name: 'Toko Online', price: 25000, category: 'Website' },
+  { id: 2, name: 'Landing Page', price: 25000, category: 'Website' },
+  { id: 3, name: 'Portfolio', price: 25000, category: 'Website' },
+  { id: 4, name: 'Jasa', price: 25000, category: 'Website' },
+  { id: 5, name: 'Profil Bisnis', price: 25000, category: 'Website' },
+  { id: 6, name: 'Chatbot AI', price: 25000, category: 'Chatbot' },
+  { id: 7, name: 'Konten Sosmed 1', price: 25000, category: 'Konten' },
+  { id: 8, name: 'Konten Sosmed 2', price: 25000, category: 'Konten' },
+  { id: 9, name: 'Konten Sosmed 3', price: 25000, category: 'Konten' },
+  { id: 10, name: 'Booster Sosmed', price: 'Klik', category: 'Sosmed Booster' },
 ];
 
 const banners = [
-  { text: 'Flat 50% discount on your first order.', image: 'images/banner1.jpg' },
-  { text: 'New Arrivals: Up to 30% Off!', image: 'images/banner2.jpg' },
-  { text: 'Free Shipping on Orders Over $100!', image: 'images/banner3.jpg' },
+  { text: 'Flat 50% discount on your first order.' },
+  { text: 'New Arrivals: Up to 30% Off!' },
+  { text: 'Free Shipping on Orders Over $100!' },
 ];
 
 // Components
@@ -72,13 +72,13 @@ const FooterNav = () => `
   </nav>
 `;
 
-const ProductCard = ({ id, name, price, isFavorite, image, isLarge = false }) => `
+const ProductCard = ({ id, name, price, isFavorite, isLarge = false }) => `
   <article class="relative bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)] product-card ${isLarge ? 'col-span-2' : ''}">
     <button aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}" class="favorite-btn absolute top-3 right-3 text-${isFavorite ? 'red' : 'gray'}-600 hover:text-red-600" data-id="${id}">
       <i class="${isFavorite ? 'fas' : 'far'} fa-heart text-lg"></i>
     </button>
     <a href="/NolanDex/product?id=${id}" class="nav-link">
-      <img src="${image}" alt="${name}" class="w-full ${isLarge ? 'h-40' : 'h-20'} object-cover mb-3 rounded-lg" />
+      <div class="w-full ${isLarge ? 'h-40' : 'h-20'} bg-gray-200 mb-3 rounded-lg"></div>
       <h3 class="font-semibold text-gray-900 text-sm mb-1">${name}</h3>
       <div class="text-xs font-semibold text-gray-900">
         <span>${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
@@ -130,7 +130,7 @@ const PaymentModal = ({ product, price }) => `
           <div class="payment-method-container">
             <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="qris">
               <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-3">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QRIS_logo.svg/1200px-QRIS_logo.svg.png" alt="QRIS" class="h-5">
+                <i class="fas fa-qrcode text-blue-600"></i>
               </div>
               <div class="flex-grow">
                 <h3 class="font-medium text-sm">QRIS</h3>
@@ -172,15 +172,9 @@ const PaymentModal = ({ product, price }) => `
               <div class="payment-details-content">
                 <h4 class="font-medium mb-3 text-center">Pilih Bank</h4>
                 <div class="method-grid mb-4">
-                  <div class="method-item bank-option" data-bank="bca">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" alt="BCA" class="method-logo">
-                  </div>
-                  <div class="method-item bank-option" data-bank="mandiri">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/1200px-Bank_Mandiri_logo_2016.svg.png" alt="Mandiri" class="method-logo">
-                  </div>
-                  <div class="method-item bank-option" data-bank="bni">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/BNI_logo.svg/1200px-BNI_logo.svg.png" alt="BNI" class="method-logo">
-                  </div>
+                  <div class="method-item bank-option" data-bank="bca">BCA</div>
+                  <div class="method-item bank-option" data-bank="mandiri">Mandiri</div>
+                  <div class="method-item bank-option" data-bank="bni">BNI</div>
                 </div>
                 
                 <div class="bg-gray-50 p-4 rounded-lg mb-4">
@@ -226,15 +220,9 @@ const PaymentModal = ({ product, price }) => `
               <div class="payment-details-content">
                 <h4 class="font-medium mb-3 text-center">Pilih E-Wallet</h4>
                 <div class="method-grid mb-4">
-                  <div class="method-item payment-option" data-wallet="dana">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" alt="DANA" class="method-logo">
-                  </div>
-                  <div class="method-item payment-option" data-wallet="gopay">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/1200px-Gopay_logo.svg.png" alt="GoPay" class="method-logo">
-                  </div>
-                  <div class="method-item payment-option" data-wallet="ovo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/OVO_logo.svg/1200px-OVO_logo.svg.png" alt="OVO" class="method-logo">
-                  </div>
+                  <div class="method-item payment-option" data-wallet="dana">DANA</div>
+                  <div class="method-item payment-option" data-wallet="gopay">GoPay</div>
+                  <div class="method-item payment-option" data-wallet="ovo">OVO</div>
                 </div>
                 
                 <div class="bg-gray-50 p-4 rounded-lg mb-4">
@@ -280,12 +268,8 @@ const PaymentModal = ({ product, price }) => `
               <div class="payment-details-content">
                 <h4 class="font-medium mb-3 text-center">Pilih Retail</h4>
                 <div class="method-grid mb-4">
-                  <div class="method-item payment-option" data-retail="alfamart">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Alfamart_logo_2019.svg/1200px-Alfamart_logo_2019.svg.png" alt="Alfamart" class="method-logo">
-                  </div>
-                  <div class="method-item payment-option" data-retail="indomaret">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Indomaret_logo.svg/1200px-Indomaret_logo.svg.png" alt="Indomaret" class="method-logo">
-                  </div>
+                  <div class="method-item payment-option" data-retail="alfamart">Alfamart</div>
+                  <div class="method-item payment-option" data-retail="indomaret">Indomaret</div>
                 </div>
                 
                 <div class="bg-gray-50 p-4 rounded-lg mb-4">
@@ -631,7 +615,7 @@ const updateBanner = () => {
           <p class="text-white text-sm font-semibold leading-tight">${banner.text}</p>
           <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
         </div>
-        <img src="${banner.image}" alt="Banner" class="w-24 h-24 object-cover rounded-lg" />
+        <div class="w-24 h-24 bg-gray-200 rounded-lg"></div>
       </div>
     `).join('');
     const dots = document.querySelector('.banner-dots');
@@ -669,7 +653,7 @@ const renderHome = () => {
               <p class="text-white text-sm font-semibold leading-tight">${banner.text}</p>
               <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
             </div>
-            <img src="${banner.image}" alt="Banner" class="w-24 h-24 object-cover rounded-lg" />
+            <div class="w-24 h-24 bg-gray-200 rounded-lg"></div>
           </div>
         `).join('')}
       </div>
@@ -721,7 +705,7 @@ const renderProductDetails = () => {
         <button aria-label="${favorites.includes(product.id) ? 'Remove from favorites' : 'Add to favorites'}" class="favorite-btn absolute top-3 right-3 text-${favorites.includes(product.id) ? 'red' : 'gray'}-600 hover:text-red-600" data-id="${product.id}">
           <i class="${favorites.includes(product.id) ? 'fas' : 'far'} fa-heart text-lg"></i>
         </button>
-        <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover mb-3 rounded-lg" />
+        <div class="w-full h-40 bg-gray-200 mb-3 rounded-lg"></div>
         <h2 class="font-bold text-lg text-gray-900 mb-2">${product.name}</h2>
         <p class="text-gray-600 text-sm mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <div class="text-sm font-semibold text-gray-900 mb-3">
