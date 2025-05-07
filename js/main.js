@@ -188,7 +188,7 @@ const PaymentModal = ({ product, price }) => `
                     <label class="block text-gray-500 text-sm mb-1">Nomor Virtual Account</label>
                     <div class="flex items-center">
                       <span class="font-mono va-number bg-gray-100 p-2 rounded flex-1">8888801234567890</span>
-                      <button class="copy-btn text-blue-600 hover:text-blue-800 ml-2" onclick="copyToClipboard('8888801234567890', 'Nomor VA')">
+                      <button class="copy-btn text-blue-600 hover:text-blue-800 ml-2" data-copy="8888801234567890" data-label="Nomor VA">
                         <i class="fas fa-copy"></i>
                       </button>
                     </div>
@@ -242,7 +242,7 @@ const PaymentModal = ({ product, price }) => `
                     <label class="block text-gray-500 text-sm mb-1">Nomor E-Wallet</label>
                     <div class="flex items-center">
                       <span class="font-mono ewallet-number bg-gray-100 p-2 rounded flex-1">081234567890</span>
-                      <button class="copy-btn text-blue-600 hover:text-blue-800 ml-2" onclick="copyToClipboard('081234567890', 'Nomor e-wallet')">
+                      <button class="copy-btn text-blue-600 hover:text-blue-800 ml-2" data-copy="081234567890" data-label="Nomor e-wallet">
                         <i class="fas fa-copy"></i>
                       </button>
                     </div>
@@ -293,7 +293,7 @@ const PaymentModal = ({ product, price }) => `
                     <label class="block text-gray-500 text-sm mb-1">Kode Pembayaran</label>
                     <div class="flex items-center">
                       <span class="font-mono retail-code bg-gray-100 p-2 rounded flex-1">ALFA123456</span>
-                      <button class="copy-btn text-blue-600 hover:text-blue-800 ml-2" onclick="copyToClipboard('ALFA123456', 'Kode pembayaran')">
+                      <button class="copy-btn text-blue-600 hover:text-blue-800 ml-2" data-copy="ALFA123456" data-label="Kode pembayaran">
                         <i class="fas fa-copy"></i>
                       </button>
                     </div>
@@ -327,7 +327,7 @@ const PaymentModal = ({ product, price }) => `
               <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
             </div>
             
-  <div class="payment-details">
+            <div class="payment-details">
               <div class="payment-details-content">
                 <div class="mb-4">
                   <label class="block text-gray-700 mb-2">Informasi Kartu</label>
@@ -412,7 +412,7 @@ const PaymentModal = ({ product, price }) => `
   </div>
 `;
 
-// Payment Modal Logic (moved to static execution)
+// Payment Modal Logic
 let selectedMethod = null;
 
 function formatRupiah(amount) {
@@ -450,14 +450,14 @@ function getMethodName(method) {
   return methods[method] || 'Pembayaran';
 }
 
-function processPayment() {
-  const paymentModal = document.getElementById('paymentModal');
-  const processingModal = document.getElementById('processingModal');
-  const successModal = document.getElementById('successModal');
-  const loadingBar = document.getElementById('loadingBar');
-  const successAmount = document.getElementById('successAmount');
-  const successMethod = document.getElementById('successMethod');
-  const invoiceNumber = document.getElementById('invoiceNumber');
+function processPayment(modalContainer) {
+  const paymentModal = modalContainer.querySelector('#paymentModal');
+  const processingModal = modalContainer.querySelector('#processingModal');
+  const successModal = modalContainer.querySelector('#successModal');
+  const loadingBar = modalContainer.querySelector('#loadingBar');
+  const successAmount = modalContainer.querySelector('#successAmount');
+  const successMethod = modalContainer.querySelector('#successMethod');
+  const invoiceNumber = modalContainer.querySelector('#invoiceNumber');
 
   if (paymentModal && processingModal && successModal && loadingBar && successAmount && successMethod && invoiceNumber) {
     paymentModal.classList.add('hidden');
@@ -474,12 +474,17 @@ function processPayment() {
       invoiceNumber.textContent = 'INV-' + Math.floor(1000 + Math.random() * 9000);
       successModal.classList.remove('hidden');
     }, 1500);
+  } else {
+    console.error('Payment modal elements not found');
   }
 }
 
 function attachPaymentListeners(modalContainer) {
   const modal = modalContainer.querySelector('#paymentModal');
-  if (!modal) return;
+  if (!modal) {
+    console.error('Payment modal not found');
+    return;
+  }
 
   // Initialize modal content
   const modalPlan = modal.querySelector('#modalPlan');
@@ -492,14 +497,16 @@ function attachPaymentListeners(modalContainer) {
     modalProduct.textContent = window.currentProduct || 'Layanan Premium';
     modalAmount.textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice) : window.currentPrice;
     modalOldPrice.textContent = typeof window.currentPrice === 'number' ? formatRupiah(window.currentPrice * 1.67) : 'N/A';
+  } else {
+    console.error('Modal content elements not found');
   }
 
   // Payment method toggles
   modal.querySelectorAll('.payment-method').forEach(method => {
-    method.addEventListener('click', function() {
-      const container = this.closest('.payment-method-container');
+    method.addEventListener('click', () => {
+      const container = method.closest('.payment-method-container');
       const details = container.querySelector('.payment-details');
-      const chevron = this.querySelector('i.fa-chevron-down');
+      const chevron = method.querySelector('i.fa-chevron-down');
       
       modal.querySelectorAll('.payment-details').forEach(d => {
         if (d !== details) {
@@ -516,90 +523,80 @@ function attachPaymentListeners(modalContainer) {
       details.classList.toggle('active');
       chevron.classList.toggle('rotate-180');
       
-      selectedMethod = this.getAttribute('data-method');
+      selectedMethod = method.getAttribute('data-method');
+    });
+  });
+
+  // Copy buttons
+  modal.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-copy');
+      const label = btn.getAttribute('data-label');
+      copyToClipboard(text, label);
     });
   });
 
   // Bank, e-wallet, and retail options
-  modal.addEventListener('click', function(e) {
-    if (e.target.closest('.bank-option')) {
-      const option = e.target.closest('.bank-option');
+  modal.querySelectorAll('.bank-option, .payment-option').forEach(option => {
+    option.addEventListener('click', () => {
       const container = option.closest('.payment-details');
-      const vaNumber = container.querySelector('.va-number');
-      const copyBtn = container.querySelector('.copy-btn');
-      
-      container.querySelectorAll('.bank-option').forEach(opt => {
+      const isBank = option.classList.contains('bank-option');
+      const isEwallet = option.hasAttribute('data-wallet');
+      const isRetail = option.hasAttribute('data-retail');
+
+      container.querySelectorAll('.bank-option, .payment-option').forEach(opt => {
         opt.classList.remove('bg-blue-100');
       });
-      
       option.classList.add('bg-blue-100');
-      
-      const bank = option.getAttribute('data-bank');
-      const vaNumbers = {
-        'bca': '8888801234567890',
-        'mandiri': '8888802345678901',
-        'bni': '8888803456789012'
-      };
-      
-      if (vaNumbers[bank]) {
-        vaNumber.textContent = vaNumbers[bank];
-        copyBtn.setAttribute('onclick', `copyToClipboard('${vaNumbers[bank]}', 'Nomor VA')`);
-      }
-    }
-    
-    if (e.target.closest('.payment-option')) {
-      const option = e.target.closest('.payment-option');
-      const container = option.closest('.payment-details');
-      
-      if (container.querySelector('.ewallet-number')) {
+
+      if (isBank) {
+        const bank = option.getAttribute('data-bank');
+        const vaNumber = container.querySelector('.va-number');
+        const copyBtn = container.querySelector('.copy-btn');
+        const vaNumbers = {
+          'bca': '8888801234567890',
+          'mandiri': '8888802345678901',
+          'bni': '8888803456789012'
+        };
+        if (vaNumber && copyBtn && vaNumbers[bank]) {
+          vaNumber.textContent = vaNumbers[bank];
+          copyBtn.setAttribute('data-copy', vaNumbers[bank]);
+          copyBtn.setAttribute('data-label', 'Nomor VA');
+        }
+      } else if (isEwallet) {
+        const wallet = option.getAttribute('data-wallet');
         const ewalletNumber = container.querySelector('.ewallet-number');
         const copyBtn = container.querySelector('.copy-btn');
-        
-        container.querySelectorAll('.payment-option').forEach(opt => {
-          opt.classList.remove('bg-blue-100');
-        });
-        
-        option.classList.add('bg-blue-100');
-        
-        const wallet = option.getAttribute('data-wallet');
         const numbers = {
           'dana': '081234567890',
           'gopay': '081987654321',
           'ovo': '082345678901'
         };
-        
-        if (numbers[wallet]) {
+        if (ewalletNumber && copyBtn && numbers[wallet]) {
           ewalletNumber.textContent = numbers[wallet];
-          copyBtn.setAttribute('onclick', `copyToClipboard('${numbers[wallet]}', 'Nomor e-wallet')`);
+          copyBtn.setAttribute('data-copy', numbers[wallet]);
+          copyBtn.setAttribute('data-label', 'Nomor e-wallet');
         }
-      }
-      
-      if (container.querySelector('.retail-code')) {
+      } else if (isRetail) {
+        const retail = option.getAttribute('data-retail');
         const retailCode = container.querySelector('.retail-code');
         const copyBtn = container.querySelector('.copy-btn');
-        
-        container.querySelectorAll('.payment-option').forEach(opt => {
-          opt.classList.remove('bg-blue-100');
-        });
-        
-        option.classList.add('bg-blue-100');
-        
-        const retail = option.getAttribute('data-retail');
         const codes = {
           'alfamart': 'ALFA' + Math.floor(100000 + Math.random() * 900000),
           'indomaret': 'INDO' + Math.floor(100000 + Math.random() * 900000)
         };
-        
-        if (codes[retail]) {
+        if (retailCode && copyBtn && codes[retail]) {
           retailCode.textContent = codes[retail];
-          copyBtn.setAttribute('onclick', `copyToClipboard('${codes[retail]}', 'Kode pembayaran')`);
+          copyBtn.setAttribute('data-copy', codes[retail]);
+          copyBtn.setAttribute('data-label', 'Kode pembayaran');
         }
       }
-    }
-    
-    if (e.target.closest('.confirm-payment')) {
-      processPayment();
-    }
+    });
+  });
+
+  // Confirm payment
+  modal.querySelectorAll('.confirm-payment').forEach(btn => {
+    btn.addEventListener('click', () => processPayment(modalContainer));
   });
 
   // Close buttons
@@ -800,6 +797,13 @@ const renderAdmin = () => `
   </div>
 `;
 
+const renderError = () => `
+  <div class="w-full max-w-sm mx-auto p-4">
+    <h2 class="font-bold text-lg text-gray-900 mb-4">Error</h2>
+    <p class="text-gray-600">Halaman tidak ditemukan. Kembali ke <a href="/NolanDex/" class="text-blue-600 hover:underline">Home</a>.</p>
+  </div>
+`;
+
 // Router
 const routes = {
   '/NolanDex/': renderHome,
@@ -812,111 +816,127 @@ const routes = {
 
 function router() {
   console.log("Router running");
-  const app = document.getElementById('app');
-  const footer = document.getElementById('footer');
-  const header = document.getElementById('header');
-  if (!app || !footer || !header) {
-    console.error('App, footer, or header element not found');
-    return;
+  try {
+    const app = document.getElementById('app');
+    const footer = document.getElementById('footer');
+    const header = document.getElementById('header');
+    if (!app || !footer || !header) {
+      console.error('App, footer, or header element not found');
+      app.innerHTML = '<p class="text-red-600 text-center">Error: Page elements not found</p>';
+      return;
+    }
+    const path = window.location.pathname;
+    const render = routes[path] || renderError;
+    app.innerHTML = render();
+    footer.innerHTML = FooterNav();
+    header.innerHTML = Header();
+    attachEventListeners();
+  } catch (error) {
+    console.error('Router error:', error);
+    const app = document.getElementById('app');
+    if (app) {
+      app.innerHTML = '<p class="text-red-600 text-center">Error loading page: ' + error.message + '</p>';
+    }
   }
-  const path = window.location.pathname;
-  const render = routes[path] || routes['/NolanDex/'];
-  app.innerHTML = render();
-  footer.innerHTML = FooterNav();
-  header.innerHTML = Header();
-  attachEventListeners();
 }
 
 function attachEventListeners() {
-  // Navigation
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const href = e.currentTarget.getAttribute('href');
-      window.history.pushState({}, '', href);
-      router();
+  try {
+    // Navigation
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const href = e.currentTarget.getAttribute('href');
+        window.history.pushState({}, '', href);
+        router();
+      });
     });
-  });
 
-  // Hamburger Menu
-  const hamburgerToggle = document.querySelector('.hamburger-toggle');
-  const hamburgerMenu = document.querySelector('.hamburger-menu');
-  const hamburgerClose = document.querySelector('.hamburger-close');
-  if (hamburgerToggle && hamburgerMenu) {
-    hamburgerToggle.addEventListener('click', () => {
-      hamburgerMenu.classList.add('open');
+    // Hamburger Menu
+    const hamburgerToggle = document.querySelector('.hamburger-toggle');
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const hamburgerClose = document.querySelector('.hamburger-close');
+    if (hamburgerToggle && hamburgerMenu) {
+      hamburgerToggle.addEventListener('click', () => {
+        hamburgerMenu.classList.add('open');
+      });
+    }
+    if (hamburgerClose && hamburgerMenu) {
+      hamburgerClose.addEventListener('click', () => {
+        hamburgerMenu.classList.remove('open');
+      });
+    }
+
+    // Favorites
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = parseInt(btn.dataset.id);
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        if (favorites.includes(id)) {
+          favorites = favorites.filter(fav => fav !== id);
+        } else {
+          favorites.push(id);
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        router();
+      });
     });
-  }
-  if (hamburgerClose && hamburgerMenu) {
-    hamburgerClose.addEventListener('click', () => {
-      hamburgerMenu.classList.remove('open');
+
+    // Payment Modal
+    document.querySelectorAll('.pay-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = parseInt(btn.dataset.id);
+        const name = btn.dataset.name;
+        const price = btn.dataset.price === 'Klik' ? 'Klik' : parseInt(btn.dataset.price);
+        
+        window.currentProduct = name;
+        window.currentPrice = price;
+
+        const modalContainer = document.createElement('div');
+        modalContainer.innerHTML = PaymentModal({ product: name, price: price });
+        document.body.appendChild(modalContainer);
+        document.body.style.overflow = 'hidden';
+
+        attachPaymentListeners(modalContainer);
+      });
     });
-  }
 
-  // Favorites
-  document.querySelectorAll('.favorite-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = parseInt(btn.dataset.id);
-      let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-      if (favorites.includes(id)) {
-        favorites = favorites.filter(fav => fav !== id);
-      } else {
-        favorites.push(id);
-      }
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-      router();
+    // Categories
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+        localStorage.setItem('selectedCategory', category);
+        router();
+      });
     });
-  });
 
-  // Payment Modal
-  document.querySelectorAll('.pay-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = parseInt(btn.dataset.id);
-      const name = btn.dataset.name;
-      const price = btn.dataset.price === 'Klik' ? 'Klik' : parseInt(btn.dataset.price);
-      
-      window.currentProduct = name;
-      window.currentPrice = price;
+    // Login
+    const loginForm = document.querySelector('.login-form');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        localStorage.setItem('isLoggedIn', 'true');
+        window.history.pushState({}, '', '/NolanDex/');
+        router();
+      });
+    }
 
-      const modalContainer = document.createElement('div');
-      modalContainer.innerHTML = PaymentModal({ product: name, price: price });
-      document.body.appendChild(modalContainer);
-      document.body.style.overflow = 'hidden';
-
-      attachPaymentListeners(modalContainer);
-    });
-  });
-
-  // Categories
-  document.querySelectorAll('.category-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const category = btn.dataset.category;
-      localStorage.setItem('selectedCategory', category);
-      router();
-    });
-  });
-
-  // Login
-  const loginForm = document.querySelector('.login-form');
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      localStorage.setItem('isLoggedIn', 'true');
-      window.history.pushState({}, '', '/NolanDex/');
-      router();
-    });
-  }
-
-  // Logout
-  const logoutBtn = document.querySelector('.logout-btn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      localStorage.setItem('isLoggedIn', 'false');
-      window.history.pushState({}, '', '/NolanDex/');
-      router();
-    });
+    // Logout
+    const logoutBtn = document.querySelector('.logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.setItem('isLoggedIn', 'false');
+        window.history.pushState({}, '', '/NolanDex/');
+        router();
+      });
+    }
+  } catch (error) {
+    console.error('Event listener error:', error);
   }
 }
 
 window.addEventListener('popstate', router);
-document.addEventListener('DOMContentLoaded', router);
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM loaded');
+  router();
+});
