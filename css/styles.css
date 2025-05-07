@@ -11,10 +11,6 @@ body {
   transition: transform 0.2s ease-in-out;
 }
 
-.cart-item {
-  transition: all 0.3s ease;
-}
-
 .hamburger-menu {
   transition: transform 0.3s ease-in-out;
   transform: translateX(100%);
@@ -55,57 +51,34 @@ header {
   width: 100%;
   z-index: 1000;
   background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive adjustments */
-@media (min-width: 640px) {
-  .max-w-sm {
-    max-width: 640px;
-  }
-  .grid-cols-2 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+/* Payment Modal Styles */
+.payment-method {
+  transition: all 0.2s ease;
 }
 
-@media (min-width: 1024px) {
-  .max-w-sm {
-    max-width: 1024px;
-  }
-  .grid-cols-2 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+.payment-method:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Category navigation */
-.categories-nav {
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+.loading-bar {
+  width: 0%;
+  transition: width 1s ease-in-out;
 }
 
-/* Footer styles */
-.sticky-footer {
-  position: sticky;
-  bottom: 0;
-  width: 100%;
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #10b981;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  display: none;
   z-index: 1000;
 }
 
-.footer-nav {
-  padding: 0.5rem;
-  background-color: #0F172A;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.footer-nav a {
-  flex: 1;
-  text-align: center;
-  color: #D1D5DB;
-  padding: 0.25rem;
-}
-
-.footer-nav a:hover {
-  color: #3B82F6;
-}
+.payment-logo
