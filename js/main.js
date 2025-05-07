@@ -1,33 +1,33 @@
 console.log("Script loaded");
 
-// Data (without images)
+// Data with image paths
 const products = [
-  { id: 1, name: 'Nike Air Max', price: 85, rating: 4.8, category: 'Shoes' },
-  { id: 2, name: 'Adidas Sneakers', price: 85, rating: 4.8, category: 'Shoes' },
-  { id: 3, name: 'Black Stiletto Heels', price: 85, rating: 4.8, category: 'High Heels' },
-  { id: 4, name: 'Casual Loafers', price: 85, rating: 4.8, category: 'Loafers' },
-  { id: 5, name: 'Puma Running Shoes', price: 90, rating: 4.7, category: 'Shoes' },
-  { id: 6, name: 'Ankle Boots', price: 100, rating: 4.9, category: 'Boots' },
-  { id: 7, name: 'Red High Heels', price: 80, rating: 4.6, category: 'High Heels' },
-  { id: 8, name: 'Brown Loafers', price: 75, rating: 4.5, category: 'Loafers' },
-  { id: 9, name: 'Nike Zoom', price: 95, rating: 4.8, category: 'Shoes' },
-  { id: 10, name: 'Combat Boots', price: 110, rating: 4.9, category: 'Boots' },
-  { id: 11, name: 'White Sneakers', price: 80, rating: 4.7, category: 'Shoes' },
-  { id: 12, name: 'Knee-High Boots', price: 120, rating: 4.8, category: 'Boots' },
-  { id: 13, name: 'Gold High Heels', price: 85, rating: 4.6, category: 'High Heels' },
-  { id: 14, name: 'Suede Loafers', price: 70, rating: 4.5, category: 'Loafers' },
+  { id: 1, name: 'Website Basic', price: 85, rating: 4.8, category: 'Website', image: 'images/1.jpg' },
+  { id: 2, name: 'Website Pro', price: 85, rating: 4.8, category: 'Website', image: 'images/2.jpg' },
+  { id: 3, name: 'Website Premium', price: 85, rating: 4.8, category: 'Website', image: 'images/3.jpg' },
+  { id: 4, name: 'Website Enterprise', price: 85, rating: 4.8, category: 'Website', image: 'images/4.jpg' },
+  { id: 5, name: 'Website Custom', price: 90, rating: 4.7, category: 'Website', image: 'images/5.jpg' },
+  { id: 6, name: 'Chatbot AI', price: 100, rating: 4.9, category: 'Chatbot', image: 'images/6.jpg' },
+  { id: 7, name: 'Pratama Content', price: 80, rating: 4.6, category: 'Sosmed Konten', image: 'images/7.jpg' },
+  { id: 8, name: 'Content Standard', price: 75, rating: 4.5, category: 'Sosmed Konten', image: 'images/8.jpg' },
+  { id: 9, name: 'Content Pro', price: 95, rating: 4.8, category: 'Sosmed Konten', image: 'images/9.jpg' },
+  { id: 10, name: 'Booster Basic', price: 110, rating: 4.9, category: 'Sosmed Booster', image: 'images/10.jpg' },
+  { id: 11, name: 'Booster Pro', price: 80, rating: 4.7, category: 'Sosmed Booster', image: 'images/11.jpg' },
+  { id: 12, name: 'Booster Premium', price: 120, rating: 4.8, category: 'Sosmed Booster', image: 'images/12.jpg' },
+  { id: 13, name: 'Booster Elite', price: 85, rating: 4.6, category: 'Sosmed Booster', image: 'images/13.jpg' },
+  { id: 14, name: 'Booster Max', price: 70, rating: 4.5, category: 'Sosmed Booster', image: 'images/14.jpg' },
 ];
 
 const banners = [
-  { text: 'Flat 50% discount on your first order.' },
-  { text: 'New Arrivals: Up to 30% Off!' },
-  { text: 'Free Shipping on Orders Over $100!' },
+  { text: 'Flat 50% discount on your first order.', image: 'images/banner1.jpg' },
+  { text: 'New Arrivals: Up to 30% Off!', image: 'images/banner2.jpg' },
+  { text: 'Free Shipping on Orders Over $100!', image: 'images/banner3.jpg' },
 ];
 
 // Components
 const Header = () => `
-  <header class="flex items-center justify-between mb-4 relative px-4">
-    <h1 class="font-semibold text-lg text-gray-900">Explore</h1>
+  <div class="flex items-center justify-between mb-4 relative px-4 py-2">
+    <h1 class="font-semibold text-lg text-gray-900">NolanDex</h1>
     <button aria-label="Hamburger menu" class="hamburger-toggle p-2 border border-gray-300 rounded-lg text-gray-700">
       <i class="fas fa-bars text-base"></i>
     </button>
@@ -37,52 +37,52 @@ const Header = () => `
           <i class="fas fa-times text-lg"></i>
         </button>
         <nav class="mt-6 space-y-4">
-          <a href="/Nolantes4/" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Home</a>
+          <a href="/NolanDex/" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Home</a>
           ${localStorage.getItem('isLoggedIn') === 'true' ? `
             <p class="text-gray-900 font-semibold">Hello, John Doe!</p>
             <button class="logout-btn text-gray-700 hover:text-[#3B82F6] w-full text-left">Logout</button>
           ` : `
-            <a href="/Nolantes4/login" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Login</a>
+            <a href="/NolanDex/login" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Login</a>
           `}
-          <a href="/Nolantes4/cart" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Bag</a>
-          <a href="/Nolantes4/alerts" class="nav-link block text-gray-700 hover:text-[#3B82F6] relative">
+          <a href="/NolanDex/cart" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Bag</a>
+          <a href="/NolanDex/alerts" class="nav-link block text-gray-700 hover:text-[#3B82F6] relative">
             Alerts
             <span class="absolute top-0 right-0 bg-[#3B82F6] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">1</span>
           </a>
         </nav>
       </div>
     </div>
-  </header>
+  </div>
 `;
 
 const FooterNav = () => `
   <nav class="footer-nav bg-[#0F172A] flex justify-around items-center py-3 w-full">
-    <a href="/Nolantes4/" class="nav-link flex flex-col items-center text-white text-xs font-semibold flex-1">
+    <a href="/NolanDex/" class="nav-link flex flex-col items-center text-white text-xs font-semibold flex-1">
       <i class="fas fa-home text-lg text-[#3B82F6]"></i>
       <span class="mt-1">Home</span>
     </a>
-    <a href="/Nolantes4/cart" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
+    <a href="/NolanDex/cart" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
       <i class="fas fa-shopping-bag text-lg"></i>
       <span class="mt-1">Bag</span>
     </a>
-    <a href="/Nolantes4/profile" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
+    <a href="/NolanDex/profile" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
       <i class="fas fa-user text-lg"></i>
       <span class="mt-1">Profile</span>
     </a>
-    <a href="/Nolantes4/alerts" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
+    <a href="/NolanDex/alerts" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
       <i class="fas fa-bell text-lg"></i>
       <span class="mt-1">Alerts</span>
     </a>
   </nav>
 `;
 
-const ProductCard = ({ id, name, price, rating, isFavorite }) => `
-  <article class="relative bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)] product-card">
+const ProductCard = ({ id, name, price, rating, isFavorite, image, isLarge = false, isPratama = false }) => `
+  <article class="relative bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)] product-card ${isLarge ? 'col-span-2' : ''} ${isPratama ? 'col-span-2' : ''}">
     <button aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}" class="favorite-btn absolute top-3 right-3 text-${isFavorite ? 'red' : 'gray'}-600 hover:text-red-600" data-id="${id}">
       <i class="${isFavorite ? 'fas' : 'far'} fa-heart text-lg"></i>
     </button>
-    <a href="/Nolantes4/product?id=${id}" class="nav-link">
-      <div class="w-full h-20 bg-gray-200 mb-3 flex items-center justify-center text-gray-600">[Image Placeholder]</div>
+    <a href="/NolanDex/product?id=${id}" class="nav-link">
+      <img src="${image}" alt="${name}" class="w-full ${isLarge || isPratama ? 'h-40' : 'h-20'} object-cover mb-3 rounded-lg" />
       <h3 class="font-semibold text-gray-900 text-sm mb-1">${name}</h3>
       <div class="flex items-center justify-between text-xs font-semibold text-gray-900">
         <span>$${price}</span>
@@ -108,7 +108,7 @@ const updateBanner = () => {
           <p class="text-white text-sm font-semibold leading-tight">${banner.text}</p>
           <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
         </div>
-        <div class="w-24 h-24 bg-gray-200 flex items-center justify-center text-gray-600">[Banner Placeholder]</div>
+        <img src="${banner.image}" alt="Banner" class="w-24 h-24 object-cover rounded-lg" />
       </div>
     `).join('');
     const dots = document.querySelector('.banner-dots');
@@ -125,11 +125,19 @@ setInterval(updateBanner, 5000);
 const renderHome = () => {
   const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
   const selectedCategory = localStorage.getItem('selectedCategory') || 'All';
-  const filteredProducts = selectedCategory === 'All' ? products : products.filter(p => p.category === selectedCategory);
+  let filteredProducts = selectedCategory === 'All' ? products : products.filter(p => p.category === selectedCategory);
+
+  // Limit products based on category
+  if (selectedCategory === 'Website') {
+    filteredProducts = filteredProducts.slice(0, 5);
+  } else if (selectedCategory === 'Chatbot') {
+    filteredProducts = filteredProducts.slice(0, 1);
+  } else if (selectedCategory === 'Sosmed Konten') {
+    filteredProducts = filteredProducts.slice(0, 3);
+  }
 
   return `
     <div class="w-full max-w-sm mx-auto p-4">
-      ${Header()}
       <div class="banner-container relative mb-4" style="min-height: 96px;">
         ${banners.map((banner, index) => `
           <div class="banner ${index === currentBanner ? 'banner-active' : 'banner-inactive'} bg-[#0F172A] rounded-2xl p-4 flex items-center justify-between">
@@ -137,7 +145,7 @@ const renderHome = () => {
               <p class="text-white text-sm font-semibold leading-tight">${banner.text}</p>
               <button class="mt-2 bg-[#FF5C2F] text-white text-xs font-semibold px-4 py-1 rounded-full">Buy Now</button>
             </div>
-            <div class="w-24 h-24 bg-gray-200 flex items-center justify-center text-gray-600">[Banner Placeholder]</div>
+            <img src="${banner.image}" alt="Banner" class="w-24 h-24 object-cover rounded-lg" />
           </div>
         `).join('')}
       </div>
@@ -148,28 +156,32 @@ const renderHome = () => {
       </div>
       <div class="flex justify-between items-center mb-3">
         <h2 class="font-bold text-gray-900 text-base">Categories</h2>
-        <button class="text-xs text-gray-500 font-semibold">View all</button>
       </div>
       <nav class="categories-nav flex space-x-3 mb-6 overflow-x-auto">
         <button class="category-btn flex items-center space-x-2 ${selectedCategory === 'All' ? 'bg-[#3B82F6] text-white' : 'bg-gray-100 text-gray-900'} rounded-lg px-3 py-1.5 font-semibold text-xs" data-category="All">
           <i class="fas fa-shoe-prints text-sm"></i>
           <span>All</span>
         </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'High Heels' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="High Heels">
-          <span>HH</span>
+        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Website' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Website">
+          <span>W</span>
         </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Shoes' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Shoes">
-          <span>S</span>
+        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Chatbot' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Chatbot">
+          <span>C</span>
         </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Loafers' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Loafers">
-          <span>L</span>
+        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Sosmed Booster' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Sosmed Booster">
+          <span>SB</span>
         </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Boots' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Boots">
-          <span>B</span>
+        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Sosmed Konten' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Sosmed Konten">
+          <span>SK</span>
         </button>
       </nav>
       <section class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        ${filteredProducts.length ? filteredProducts.map(product => ProductCard({ ...product, isFavorite: favorites.includes(product.id) })).join('') : '<p class="text-gray-600 col-span-full">No products found.</p>'}
+        ${filteredProducts.length ? filteredProducts.map(product => ProductCard({
+          ...product,
+          isFavorite: favorites.includes(product.id),
+          isLarge: product.category === 'Chatbot',
+          isPratama: product.name === 'Pratama Content'
+        })).join('') : '<p class="text-gray-600 col-span-full">No products found.</p>'}
       </section>
     </div>
   `;
@@ -182,13 +194,12 @@ const renderProductDetails = () => {
   const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
   return `
     <div class="w-full max-w-sm mx-auto p-4">
-      ${Header()}
       <section class="bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
         <button aria-label="${favorites.includes(product.id) ? 'Remove from favorites' : 'Add to favorites'}" class="favorite-btn absolute top-3 right-3 text-${favorites.includes(product.id) ? 'red' : 'gray'}-600 hover:text-red-600" data-id="${product.id}">
           <i class="${favorites.includes(product.id) ? 'fas' : 'far'} fa-heart text-lg"></i>
         </button>
-        <div class="w-full h-40 bg-gray-200 mb-3 flex items-center justify-center text-gray-600">[Product Image Placeholder]</div>
-        <h2 class="font-bold text-lg text-gray-900 mb-2">${product.name}</h2>
+        <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover mb-3 rounded-lg" />
+        <h2 class="font-bold text-lg text-gray-900 mb-2">${ PRODUCT.name}</h2>
         <p class="text-gray-600 text-sm mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <div class="flex items-center justify-between text-sm font-semibold text-gray-900 mb-3">
           <span>$${product.price}</span>
@@ -218,13 +229,12 @@ const renderCart = () => {
 
   return `
     <div class="w-full max-w-sm mx-auto p-4">
-      ${Header()}
       <h2 class="font-bold text-lg text-gray-900 mb-4">Your Cart</h2>
       <section class="space-y-4">
         ${cartItems.length === 0 ? '<p class="text-gray-600">Your cart is empty.</p>' : cartItems.map(item => `
           <div class="cart-item flex items-center justify-between bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
             <div class="flex items-center space-x-3">
-              <div class="w-16 h-16 bg-gray-200 flex items-center justify-center text-gray-600">[Item Placeholder]</div>
+              <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg" />
               <div>
                 <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
                 <p class="text-gray-600 text-xs">$${item.price}</p>
@@ -248,8 +258,7 @@ const renderCart = () => {
 
 const renderProfile = () => `
   <div class="w-full max-w-sm mx-auto p-4">
-    ${Header()}
-    <h2 class="font-bold text-lg text-gray-900 mb-4">Profile</h2>
+    <h2 class="font-bold text-lg text-gray-900 mb-43">Profile</h2>
     <section class="bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
       <div class="flex items-center space-x-4 mb-4">
         <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
@@ -271,7 +280,6 @@ const renderProfile = () => `
 
 const renderLogin = () => `
   <div class="w-full max-w-sm mx-auto p-4">
-    ${Header()}
     <h2 class="font-bold text-lg text-gray-900 mb-4">Login</h2>
     <section class="bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
       <form class="login-form space-y-4">
@@ -291,7 +299,6 @@ const renderLogin = () => `
 
 const renderAlerts = () => `
   <div class="w-full max-w-sm mx-auto p-4">
-    ${Header()}
     <h2 class="font-bold text-lg text-gray-900 mb-4">Alerts</h2>
     <section class="bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
       <p class="text-gray-600">You have 1 new notification: New arrivals are here!</p>
@@ -301,26 +308,28 @@ const renderAlerts = () => `
 
 // Router
 const routes = {
-  '/Nolantes4/': renderHome,
-  '/Nolantes4/product': renderProductDetails,
-  '/Nolantes4/cart': renderCart,
-  '/Nolantes4/profile': renderProfile,
-  '/Nolantes4/login': renderLogin,
-  '/Nolantes4/alerts': renderAlerts,
+  '/NolanDex/': renderHome,
+  '/NolanDex/product': renderProductDetails,
+  '/NolanDex/cart': renderCart,
+  '/NolanDex/profile': renderProfile,
+  '/NolanDex/login': renderLogin,
+  '/NolanDex/alerts': renderAlerts,
 };
 
 function router() {
   console.log("Router running");
   const app = document.getElementById('app');
   const footer = document.getElementById('footer');
-  if (!app || !footer) {
-    console.error('App or footer element not found');
+  const header = document.getElementById('header');
+  if (!app || !footer || !header) {
+    console.error('App, footer, or header element not found');
     return;
   }
   const path = window.location.pathname;
-  const render = routes[path] || routes['/Nolantes4/'];
+  const render = routes[path] || routes['/NolanDex/'];
   app.innerHTML = render();
   footer.innerHTML = FooterNav();
+  header.innerHTML = Header();
   attachEventListeners();
 }
 
@@ -424,7 +433,7 @@ function attachEventListeners() {
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       localStorage.setItem('isLoggedIn', 'true');
-      window.history.pushState({}, '', '/Nolantes4/');
+      window.history.pushState({}, '', '/NolanDex/');
       router();
     });
   }
@@ -434,7 +443,7 @@ function attachEventListeners() {
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
       localStorage.setItem('isLoggedIn', 'false');
-      window.history.pushState({}, '', '/Nolantes4/');
+      window.history.pushState({}, '', '/NolanDex/');
       router();
     });
   }
