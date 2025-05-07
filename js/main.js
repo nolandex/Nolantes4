@@ -2,20 +2,16 @@ console.log("Script loaded");
 
 // Data with image paths
 const products = [
-  { id: 1, name: 'Website Basic', price: 85, rating: 4.8, category: 'Website', image: 'images/1.jpg' },
-  { id: 2, name: 'Website Pro', price: 85, rating: 4.8, category: 'Website', image: 'images/2.jpg' },
-  { id: 3, name: 'Website Premium', price: 85, rating: 4.8, category: 'Website', image: 'images/3.jpg' },
-  { id: 4, name: 'Website Enterprise', price: 85, rating: 4.8, category: 'Website', image: 'images/4.jpg' },
-  { id: 5, name: 'Website Custom', price: 90, rating: 4.7, category: 'Website', image: 'images/5.jpg' },
-  { id: 6, name: 'Chatbot AI', price: 100, rating: 4.9, category: 'Chatbot', image: 'images/6.jpg' },
-  { id: 7, name: 'Pratama Content', price: 80, rating: 4.6, category: 'Sosmed Konten', image: 'images/7.jpg' },
-  { id: 8, name: 'Content Standard', price: 75, rating: 4.5, category: 'Sosmed Konten', image: 'images/8.jpg' },
-  { id: 9, name: 'Content Pro', price: 95, rating: 4.8, category: 'Sosmed Konten', image: 'images/9.jpg' },
-  { id: 10, name: 'Booster Basic', price: 110, rating: 4.9, category: 'Sosmed Booster', image: 'images/10.jpg' },
-  { id: 11, name: 'Booster Pro', price: 80, rating: 4.7, category: 'Sosmed Booster', image: 'images/11.jpg' },
-  { id: 12, name: 'Booster Premium', price: 120, rating: 4.8, category: 'Sosmed Booster', image: 'images/12.jpg' },
-  { id: 13, name: 'Booster Elite', price: 85, rating: 4.6, category: 'Sosmed Booster', image: 'images/13.jpg' },
-  { id: 14, name: 'Booster Max', price: 70, rating: 4.5, category: 'Sosmed Booster', image: 'images/14.jpg' },
+  { id: 1, name: 'Toko Online', price: 25000, category: 'Website', image: 'images/1.jpg' },
+  { id: 2, name: 'Landing Page', price: 25000, category: 'Website', image: 'images/2.jpg' },
+  { id: 3, name: 'Portfolio', price: 25000, category: 'Website', image: 'images/3.jpg' },
+  { id: 4, name: 'Jasa', price: 25000, category: 'Website', image: 'images/4.jpg' },
+  { id: 5, name: 'Profil Bisnis', price: 25000, category: 'Website', image: 'images/5.jpg' },
+  { id: 6, name: 'Chatbot AI', price: 25000, category: 'Chatbot', image: 'images/6.jpg' },
+  { id: 7, name: 'Konten Sosmed 1', price: 80, category: 'Konten', image: 'images/7.jpg' },
+  { id: 8, name: 'Konten Sosmed 2', price: 75, category: 'Konten', image: 'images/8.jpg' },
+  { id: 9, name: 'Konten Sosmed 3', price: 95, category: 'Konten', image: 'images/9.jpg' },
+  { id: 10, name: 'Booster Sosmed', price: 110, category: 'Sosmed Booster', image: 'images/10.jpg' },
 ];
 
 const banners = [
@@ -26,9 +22,9 @@ const banners = [
 
 // Components
 const Header = () => `
-  <div class="flex items-center justify-between mb-4 relative px-4 py-2">
-    <h1 class="font-semibold text-lg text-gray-900">NolanDex</h1>
-    <button aria-label="Hamburger menu" class="hamburger-toggle p-2 border border-gray-300 rounded-lg text-gray-700">
+  <div class="flex items-center justify-between px-6 py-4">
+    <h1 class="font-semibold text-xl text-gray-900">NolanDex</h1>
+    <button aria-label="Hamburger menu" class="hamburger-toggle p-2 rounded-lg text-gray-700">
       <i class="fas fa-bars text-base"></i>
     </button>
     <div class="hamburger-menu fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50">
@@ -44,9 +40,9 @@ const Header = () => `
           ` : `
             <a href="/NolanDex/login" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Login</a>
           `}
-          <a href="/NolanDex/cart" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Bag</a>
-          <a href="/NolanDex/alerts" class="nav-link block text-gray-700 hover:text-[#3B82F6] relative">
-            Alerts
+          <a href="/NolanDex/cart" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Keranjang</a>
+          <a href="/NolanDex/admin" class="nav-link block text-gray-700 hover:text-[#3B82F6] relative">
+            Admin
             <span class="absolute top-0 right-0 bg-[#3B82F6] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">1</span>
           </a>
         </nav>
@@ -63,33 +59,29 @@ const FooterNav = () => `
     </a>
     <a href="/NolanDex/cart" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
       <i class="fas fa-shopping-bag text-lg"></i>
-      <span class="mt-1">Bag</span>
+      <span class="mt-1">Keranjang</span>
     </a>
-    <a href="/NolanDex/profile" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
+    <a href="/NolanDex/testimoni" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
       <i class="fas fa-user text-lg"></i>
-      <span class="mt-1">Profile</span>
+      <span class="mt-1">Testimoni</span>
     </a>
-    <a href="/NolanDex/alerts" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
+    <a href="/NolanDex/admin" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
       <i class="fas fa-bell text-lg"></i>
-      <span class="mt-1">Alerts</span>
+      <span class="mt-1">Admin</span>
     </a>
   </nav>
 `;
 
-const ProductCard = ({ id, name, price, rating, isFavorite, image, isLarge = false, isPratama = false }) => `
-  <article class="relative bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)] product-card ${isLarge ? 'col-span-2' : ''} ${isPratama ? 'col-span-2' : ''}">
+const ProductCard = ({ id, name, price, isFavorite, image, isLarge = false }) => `
+  <article class="relative bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)] product-card ${isLarge ? 'col-span-2' : ''}">
     <button aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}" class="favorite-btn absolute top-3 right-3 text-${isFavorite ? 'red' : 'gray'}-600 hover:text-red-600" data-id="${id}">
       <i class="${isFavorite ? 'fas' : 'far'} fa-heart text-lg"></i>
     </button>
     <a href="/NolanDex/product?id=${id}" class="nav-link">
-      <img src="${image}" alt="${name}" class="w-full ${isLarge || isPratama ? 'h-40' : 'h-20'} object-cover mb-3 rounded-lg" />
+      <img src="${image}" alt="${name}" class="w-full ${isLarge ? 'h-40' : 'h-20'} object-cover mb-3 rounded-lg" />
       <h3 class="font-semibold text-gray-900 text-sm mb-1">${name}</h3>
-      <div class="flex items-center justify-between text-xs font-semibold text-gray-900">
-        <span>$${price}</span>
-        <span class="flex items-center space-x-1 text-yellow-400">
-          <i class="fas fa-star text-xs"></i>
-          <span>${rating}</span>
-        </span>
+      <div class="text-xs font-semibold text-gray-900">
+        <span>Rp${price.toLocaleString('id-ID')}</span>
       </div>
     </a>
   </article>
@@ -132,8 +124,10 @@ const renderHome = () => {
     filteredProducts = filteredProducts.slice(0, 5);
   } else if (selectedCategory === 'Chatbot') {
     filteredProducts = filteredProducts.slice(0, 1);
-  } else if (selectedCategory === 'Sosmed Konten') {
+  } else if (selectedCategory === 'Konten') {
     filteredProducts = filteredProducts.slice(0, 3);
+  } else if (selectedCategory === 'Sosmed Booster') {
+    filteredProducts = filteredProducts.slice(0, 1);
   }
 
   return `
@@ -155,32 +149,31 @@ const renderHome = () => {
         `).join('')}
       </div>
       <div class="flex justify-between items-center mb-3">
-        <h2 class="font-bold text-gray-900 text-base">Categories</h2>
+        <h2 class="font-bold text-gray-900 text-base">Kategori</h2>
       </div>
       <nav class="categories-nav flex space-x-3 mb-6 overflow-x-auto">
         <button class="category-btn flex items-center space-x-2 ${selectedCategory === 'All' ? 'bg-[#3B82F6] text-white' : 'bg-gray-100 text-gray-900'} rounded-lg px-3 py-1.5 font-semibold text-xs" data-category="All">
           <i class="fas fa-shoe-prints text-sm"></i>
-          <span>All</span>
+          <span>Semua</span>
         </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Website' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Website">
-          <span>W</span>
+        <button class="category-btn flex items-center space-x-2 ${selectedCategory === 'Website' ? 'bg-[#3B82F6] text-white' : 'bg-gray-100 text-gray-900'} rounded-lg px-3 py-1.5 font-semibold text-xs" data-category="Website">
+          <span>Website</span>
         </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Chatbot' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Chatbot">
-          <span>C</span>
+        <button class="category-btn flex items-center space-x-2 ${selectedCategory === 'Chatbot' ? 'bg-[#3B82F6] text-white' : 'bg-gray-100 text-gray-900'} rounded-lg px-3 py-1.5 font-semibold text-xs" data-category="Chatbot">
+          <span>Chatbot</span>
         </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Sosmed Booster' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Sosmed Booster">
-          <span>SB</span>
+        <button class="category-btn flex items-center space-x-2 ${selectedCategory === 'Sosmed Booster' ? 'bg-[#3B82F6] text-white' : 'bg-gray-100 text-gray-900'} rounded-lg px-3 py-1.5 font-semibold text-xs" data-category="Sosmed Booster">
+          <span>Sosmed Booster</span>
         </button>
-        <button class="category-btn flex items-center justify-center w-9 h-9 ${selectedCategory === 'Sosmed Konten' ? 'bg-[#3B82F6]' : 'bg-gray-100'} rounded-lg text-gray-900 text-sm" data-category="Sosmed Konten">
-          <span>SK</span>
+        <button class="category-btn flex items-center space-x-2 ${selectedCategory === 'Konten' ? 'bg-[#3B82F6] text-white' : 'bg-gray-100 text-gray-900'} rounded-lg px-3 py-1.5 font-semibold text-xs" data-category="Konten">
+          <span>Konten</span>
         </button>
       </nav>
       <section class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        ${filteredProducts.length ? filteredProducts.map(product => ProductCard({
+        ${filteredProducts.length ? filteredProducts.map((product, index) => ProductCard({
           ...product,
           isFavorite: favorites.includes(product.id),
-          isLarge: product.category === 'Chatbot',
-          isPratama: product.name === 'Pratama Content'
+          isLarge: (product.category === 'Website' && index === 0) || product.category === 'Sosmed Booster'
         })).join('') : '<p class="text-gray-600 col-span-full">No products found.</p>'}
       </section>
     </div>
@@ -199,14 +192,10 @@ const renderProductDetails = () => {
           <i class="${favorites.includes(product.id) ? 'fas' : 'far'} fa-heart text-lg"></i>
         </button>
         <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-cover mb-3 rounded-lg" />
-        <h2 class="font-bold text-lg text-gray-900 mb-2">${ PRODUCT.name}</h2>
+        <h2 class="font-bold text-lg text-gray-900 mb-2">${product.name}</h2>
         <p class="text-gray-600 text-sm mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <div class="flex items-center justify-between text-sm font-semibold text-gray-900 mb-3">
-          <span>$${product.price}</span>
-          <span class="flex items-center space-x-1 text-yellow-400">
-            <i class="fas fa-star text-xs"></i>
-            <span>${product.rating}</span>
-          </span>
+        <div class="text-sm font-semibold text-gray-900 mb-3">
+          <span>Rp${product.price.toLocaleString('id-ID')}</span>
         </div>
         <button class="add-to-cart w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg" data-id="${product.id}">Add to Cart</button>
       </section>
@@ -223,21 +212,21 @@ const renderCart = () => {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const generateWhatsAppMessage = () => {
-    const message = cartItems.map(item => `${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}`).join('\n');
-    return encodeURIComponent(`Order Details:\n${message}\nTotal: $${total.toFixed(2)}`);
+    const message = cartItems.map(item => `${item.quantity}x ${item.name} - Rp${(item.price * item.quantity).toLocaleString('id-ID')}`).join('\n');
+    return encodeURIComponent(`Order Details:\n${message}\nTotal: Rp${total.toLocaleString('id-ID')}`);
   };
 
   return `
     <div class="w-full max-w-sm mx-auto p-4">
-      <h2 class="font-bold text-lg text-gray-900 mb-4">Your Cart</h2>
+      <h2 class="font-bold text-lg text-gray-900 mb-4">Keranjang Anda</h2>
       <section class="space-y-4">
-        ${cartItems.length === 0 ? '<p class="text-gray-600">Your cart is empty.</p>' : cartItems.map(item => `
+        ${cartItems.length === 0 ? '<p class="text-gray-600">Keranjang Anda kosong.</p>' : cartItems.map(item => `
           <div class="cart-item flex items-center justify-between bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
             <div class="flex items-center space-x-3">
               <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg" />
               <div>
                 <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
-                <p class="text-gray-600 text-xs">$${item.price}</p>
+                <p class="text-gray-600 text-xs">Rp${item.price.toLocaleString('id-ID')}</p>
               </div>
             </div>
             <div class="flex items-center space-x-2">
@@ -249,16 +238,16 @@ const renderCart = () => {
         `).join('')}
       </section>
       <div class="mt-6">
-        <p class="font-semibold text-gray-900">Total: $${total.toFixed(2)}</p>
+        <p class="font-semibold text-gray-900">Total: Rp${total.toLocaleString('id-ID')}</p>
         <a href="https://wa.me/6285156779923?text=${generateWhatsAppMessage()}" class="w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg mt-4 inline-block text-center ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${cartItems.length === 0 ? 'disabled' : ''}>Checkout via WhatsApp</a>
       </div>
     </div>
   `;
 };
 
-const renderProfile = () => `
+const renderTestimoni = () => `
   <div class="w-full max-w-sm mx-auto p-4">
-    <h2 class="font-bold text-lg text-gray-900 mb-43">Profile</h2>
+    <h2 class="font-bold text-lg text-gray-900 mb-4">Testimoni</h2>
     <section class="bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
       <div class="flex items-center space-x-4 mb-4">
         <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
@@ -272,8 +261,8 @@ const renderProfile = () => `
       <button class="w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg">Edit Profile</button>
     </section>
     <section class="mt-6">
-      <h3 class="font-semibold text-gray-900 mb-2">Order History</h3>
-      <p class="text-gray-600 text-sm">No orders yet.</p>
+      <h3 class="font-semibold text-gray-900 mb-2">Testimoni</h3>
+      <p class="text-gray-600 text-sm">Belum ada testimoni.</p>
     </section>
   </div>
 `;
@@ -297,11 +286,11 @@ const renderLogin = () => `
   </div>
 `;
 
-const renderAlerts = () => `
+const renderAdmin = () => `
   <div class="w-full max-w-sm mx-auto p-4">
-    <h2 class="font-bold text-lg text-gray-900 mb-4">Alerts</h2>
+    <h2 class="font-bold text-lg text-gray-900 mb-4">Admin</h2>
     <section class="bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
-      <p class="text-gray-600">You have 1 new notification: New arrivals are here!</p>
+      <p class="text-gray-600">Anda memiliki 1 notifikasi baru: Produk baru telah tiba!</p>
     </section>
   </div>
 `;
@@ -311,9 +300,9 @@ const routes = {
   '/NolanDex/': renderHome,
   '/NolanDex/product': renderProductDetails,
   '/NolanDex/cart': renderCart,
-  '/NolanDex/profile': renderProfile,
+  '/NolanDex/testimoni': renderTestimoni,
   '/NolanDex/login': renderLogin,
-  '/NolanDex/alerts': renderAlerts,
+  '/NolanDex/admin': renderAdmin,
 };
 
 function router() {
@@ -386,7 +375,7 @@ function attachEventListeners() {
         cart.push({ id, quantity: 1 });
       }
       localStorage.setItem('cart', JSON.stringify(cart));
-      alert('Added to cart!');
+      alert('Ditambahkan ke keranjang!');
     });
   });
 
