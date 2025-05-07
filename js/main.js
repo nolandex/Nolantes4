@@ -8,10 +8,10 @@ const products = [
   { id: 4, name: 'Jasa', price: 25000, category: 'Website', image: 'images/4.jpg' },
   { id: 5, name: 'Profil Bisnis', price: 25000, category: 'Website', image: 'images/5.jpg' },
   { id: 6, name: 'Chatbot AI', price: 25000, category: 'Chatbot', image: 'images/6.jpg' },
-  { id: 7, name: 'Konten Sosmed 1', price: 80, category: 'Konten', image: 'images/7.jpg' },
-  { id: 8, name: 'Konten Sosmed 2', price: 75, category: 'Konten', image: 'images/8.jpg' },
-  { id: 9, name: 'Konten Sosmed 3', price: 95, category: 'Konten', image: 'images/9.jpg' },
-  { id: 10, name: 'Booster Sosmed', price: 110, category: 'Sosmed Booster', image: 'images/10.jpg' },
+  { id: 7, name: 'Konten Sosmed 1', price: 25000, category: 'Konten', image: 'images/7.jpg' },
+  { id: 8, name: 'Konten Sosmed 2', price: 25000, category: 'Konten', image: 'images/8.jpg' },
+  { id: 9, name: 'Konten Sosmed 3', price: 25000, category: 'Konten', image: 'images/9.jpg' },
+  { id: 10, name: 'Booster Sosmed', price: 'Klik', category: 'Sosmed Booster', image: 'images/10.jpg' },
 ];
 
 const banners = [
@@ -22,8 +22,8 @@ const banners = [
 
 // Components
 const Header = () => `
-  <div class="flex items-center justify-between px-6 py-4">
-    <h1 class="font-semibold text-xl text-gray-900">NolanDex</h1>
+  <div class="flex items-center justify-between px-4 py-2">
+    <h1 class="font-semibold text-lg text-gray-900">NolanDex</h1>
     <button aria-label="Hamburger menu" class="hamburger-toggle p-2 rounded-lg text-gray-700">
       <i class="fas fa-bars text-base"></i>
     </button>
@@ -40,7 +40,7 @@ const Header = () => `
           ` : `
             <a href="/NolanDex/login" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Login</a>
           `}
-          <a href="/NolanDex/cart" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Keranjang</a>
+          <a href="/NolanDex/paket" class="nav-link block text-gray-700 hover:text-[#3B82F6]">Paket</a>
           <a href="/NolanDex/admin" class="nav-link block text-gray-700 hover:text-[#3B82F6] relative">
             Admin
             <span class="absolute top-0 right-0 bg-[#3B82F6] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">1</span>
@@ -57,16 +57,16 @@ const FooterNav = () => `
       <i class="fas fa-home text-lg text-[#3B82F6]"></i>
       <span class="mt-1">Home</span>
     </a>
-    <a href="/NolanDex/cart" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
+    <a href="/NolanDex/paket" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
       <i class="fas fa-shopping-bag text-lg"></i>
-      <span class="mt-1">Keranjang</span>
+      <span class="mt-1">Paket</span>
     </a>
     <a href="/NolanDex/testimoni" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
-      <i class="fas fa-user text-lg"></i>
+      <i class="fas fa-comment text-lg"></i>
       <span class="mt-1">Testimoni</span>
     </a>
     <a href="/NolanDex/admin" class="nav-link flex flex-col items-center text-gray-400 text-xs font-semibold flex-1">
-      <i class="fas fa-bell text-lg"></i>
+      <i class="fas fa-user text-lg"></i>
       <span class="mt-1">Admin</span>
     </a>
   </nav>
@@ -81,10 +81,306 @@ const ProductCard = ({ id, name, price, isFavorite, image, isLarge = false }) =>
       <img src="${image}" alt="${name}" class="w-full ${isLarge ? 'h-40' : 'h-20'} object-cover mb-3 rounded-lg" />
       <h3 class="font-semibold text-gray-900 text-sm mb-1">${name}</h3>
       <div class="text-xs font-semibold text-gray-900">
-        <span>Rp${price.toLocaleString('id-ID')}</span>
+        <span>${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
       </div>
     </a>
+    <div class="flex items-center mt-2 space-x-2">
+      <button class="pay-btn w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg" data-id="${id}" data-name="${name}" data-price="${price}">Bayar</button>
+      <a href="https://wa.me/6285156779923" class="whatsapp-btn bg-green-500 text-white p-2 rounded-full" aria-label="Contact via WhatsApp">
+        <i class="fab fa-whatsapp text-lg"></i>
+      </a>
+    </div>
   </article>
+`;
+
+const PaymentModal = ({ product, price, onClose }) => `
+  <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <!-- Header -->
+      <div class="bg-blue-600 p-6 text-white">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold">Pembayaran</h2>
+            <p class="text-blue-100 text-sm mt-1">${product}</p>
+          </div>
+          <button id="closeModal" class="text-white hover:text-blue-200">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Body -->
+      <div class="p-6">
+        <!-- Order Summary -->
+        <div class="flex justify-between items-center mb-6 p-4 bg-gray-50 rounded-lg">
+          <div>
+            <h3 class="font-medium">Total Pembayaran</h3>
+            <p class="text-gray-500 text-sm">Termasuk PPN 11%</p>
+          </div>
+          <div class="text-right">
+            <p class="text-gray-500 line-through text-sm">${typeof price === 'number' ? `Rp${(price * 1.67).toLocaleString('id-ID')}` : 'N/A'}</p>
+            <p class="text-blue-600 font-bold text-xl">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</p>
+          </div>
+        </div>
+        <!-- Payment Methods -->
+        <h3 class="text-lg font-bold mb-4">Metode Pembayaran</h3>
+        <div class="space-y-3 mb-6">
+          <!-- QRIS -->
+          <div class="payment-method-container">
+            <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="qris">
+              <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-3">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QRIS_logo.svg/1200px-QRIS_logo.svg.png" alt="QRIS" class="h-5">
+              </div>
+              <div class="flex-grow">
+                <h3 class="font-medium text-sm">QRIS</h3>
+              </div>
+              <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+            </div>
+            <div class="payment-details">
+              <div class="payment-details-content">
+                <div class="text-center mb-4">
+                  <div class="qr-code mx-auto w-48 h-48 border-2 border-dashed border-gray-300 rounded-lg mb-3"></div>
+                  <p class="text-sm text-gray-500">Scan QR code menggunakan aplikasi mobile banking atau e-wallet</p>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4">
+                  <p><i class="fas fa-info-circle mr-2"></i> QR code akan kadaluarsa dalam 24 jam</p>
+                </div>
+                <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
+                  <i class="fas fa-check-circle mr-2"></i> Saya Sudah Bayar
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Virtual Account -->
+          <div class="payment-method-container">
+            <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="virtual_account">
+              <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-3">
+                <i class="fas fa-university text-blue-600"></i>
+              </div>
+              <div class="flex-grow">
+                <h3 class="font-medium text-sm">Virtual Account</h3>
+              </div>
+              <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+            </div>
+            <div class="payment-details">
+              <div class="payment-details-content">
+                <h4 class="font-medium mb-3 text-center">Pilih Bank</h4>
+                <div class="method-grid mb-4">
+                  <div class="method-item bank-option" data-bank="bca">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" alt="BCA" class="method-logo">
+                  </div>
+                  <div class="method-item bank-option" data-bank="mandiri">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/1200px-Bank_Mandiri_logo_2016.svg.png" alt="Mandiri" class="method-logo">
+                  </div>
+                  <div class="method-item bank-option" data-bank="bni">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/BNI_logo.svg/1200px-BNI_logo.svg.png" alt="BNI" class="method-logo">
+                  </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                  <div class="mb-3">
+                    <label class="block text-gray-500 text-sm mb-1">Nomor Virtual Account</label>
+                    <div class="flex items-center">
+                      <span class="font-mono va-number bg-gray-100 p-2 rounded flex-1">8888801234567890</span>
+                      <button class="copy-btn text-blue-600 hover:text-blue-800 ml-2" onclick="copyToClipboard('8888801234567890', 'Nomor VA')">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-gray-500 text-sm mb-1">Jumlah Transfer</label>
+                    <span class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
+                  </div>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded-lg text-sm text-yellow-800 mb-4">
+                  <p><i class="fas fa-exclamation-circle mr-2"></i> Transfer tepat sesuai nominal untuk proses otomatis</p>
+                </div>
+                <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
+                  <i class="fas fa-check-circle mr-2"></i> Konfirmasi Pembayaran
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- E-Wallets -->
+          <div class="payment-method-container">
+            <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="ewallet">
+              <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-3">
+                <i class="fas fa-wallet text-green-600"></i>
+              </div>
+              <div class="flex-grow">
+                <h3 class="font-medium text-sm">E-Wallet</h3>
+              </div>
+              <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+            </div>
+            <div class="payment-details">
+              <div class="payment-details-content">
+                <h4 class="font-medium mb-3 text-center">Pilih E-Wallet</h4>
+                <div class="method-grid mb-4">
+                  <div class="method-item payment-option" data-wallet="dana">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" alt="DANA" class="method-logo">
+                  </div>
+                  <div class="method-item payment-option" data-wallet="gopay">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/1200px-Gopay_logo.svg.png" alt="GoPay" class="method-logo">
+                  </div>
+                  <div class="method-item payment-option" data-wallet="ovo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/OVO_logo.svg/1200px-OVO_logo.svg.png" alt="OVO" class="method-logo">
+                  </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                  <div class="mb-3">
+                    <label class="block text-gray-500 text-sm mb-1">Nomor E-Wallet</label>
+                    <div class="flex items-center">
+                      <span class="font-mono ewallet-number bg-gray-100 p-2 rounded flex-1">081234567890</span>
+                      <button class="copy-btn text-blue-600 hover:text-blue-800 ml-2" onclick="copyToClipboard('081234567890', 'Nomor e-wallet')">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-gray-500 text-sm mb-1">Jumlah Transfer</label>
+                    <span class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
+                  </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4">
+                  <p><i class="fas fa-info-circle mr-2"></i> Anda akan diarahkan ke aplikasi untuk menyelesaikan pembayaran</p>
+                </div>
+                <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
+                  <i class="fas fa-arrow-right mr-2"></i> Lanjut ke Pembayaran
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Retail Outlets -->
+          <div class="payment-method-container">
+            <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="retail">
+              <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-3">
+                <i class="fas fa-store text-orange-600"></i>
+              </div>
+              <div class="flex-grow">
+                <h3 class="font-medium text-sm">Retail</h3>
+              </div>
+              <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+            </div>
+            <div class="payment-details">
+              <div class="payment-details-content">
+                <h4 class="font-medium mb-3 text-center">Pilih Retail</h4>
+                <div class="method-grid mb-4">
+                  <div class="method-item payment-option" data-retail="alfamart">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Alfamart_logo_2019.svg/1200px-Alfamart_logo_2019.svg.png" alt="Alfamart" class="method-logo">
+                  </div>
+                  <div class="method-item payment-option" data-retail="indomaret">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Indomaret_logo.svg/1200px-Indomaret_logo.svg.png" alt="Indomaret" class="method-logo">
+                  </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                  <div class="mb-3">
+                    <label class="block text-gray-500 text-sm mb-1">Kode Pembayaran</label>
+                    <div class="flex items-center">
+                      <span class="font-mono retail-code bg-gray-100 p-2 rounded flex-1">ALFA123456</span>
+                      <button class="copy-btn text-blue-600 hover:text-blue-800 ml-2" onclick="copyToClipboard('ALFA123456', 'Kode pembayaran')">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-gray-500 text-sm mb-1">Jumlah Pembayaran</label>
+                    <span class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
+                  </div>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded-lg text-sm text-yellow-800 mb-4">
+                  <p><i class="fas fa-exclamation-circle mr-2"></i> Kode pembayaran akan kadaluarsa dalam 24 jam</p>
+                </div>
+                <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
+                  <i class="fas fa-check-circle mr-2"></i> Konfirmasi
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Credit Card -->
+          <div class="payment-method-container">
+            <div class="payment-method bg-white rounded-lg p-3 flex items-center cursor-pointer shadow-sm" data-method="credit_card">
+              <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-3">
+                <i class="far fa-credit-card text-purple-600"></i>
+              </div>
+              <div class="flex-grow">
+                <h3 class="font-medium text-sm">Kartu Kredit</h3>
+              </div>
+              <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+            </div>
+            <div class="payment-details">
+              <div class="payment-details-content">
+                <div class="mb-4">
+                  <label class="block text-gray-700 mb-2">Informasi Kartu</label>
+                  <div class="space-y-3">
+                    <input type="text" placeholder="Nomor Kartu" class="w-full px-4 py-2 border rounded-lg" maxlength="19">
+                    <div class="grid grid-cols-2 gap-3">
+                      <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 border rounded-lg" maxlength="5">
+                      <input type="text" placeholder="CVV" class="w-full px-4 py-2 border rounded-lg" maxlength="3">
+                    </div>
+                    <input type="text" placeholder="Nama di Kartu" class="w-full px-4 py-2 border rounded-lg">
+                  </div>
+                </div>
+                <div class="flex items-center mb-4">
+                  <input type="checkbox" id="saveCard" class="mr-2">
+                  <label for="saveCard" class="text-sm text-gray-600">Simpan kartu untuk pembayaran berikutnya</label>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                  <div class="flex justify-between">
+                    <span class="text-gray-500">Jumlah Pembayaran</span>
+                    <span class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
+                  </div>
+                </div>
+                <button class="confirm-payment w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
+                  <i class="fas fa-lock mr-2"></i> Bayar Sekarang
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Processing Modal -->
+  <div id="processingModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl max-w-md w-full p-6 text-center">
+      <div class="mb-4">
+        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div id="loadingBar" class="loading-bar h-full bg-blue-500"></div>
+        </div>
+      </div>
+      <h3 class="text-lg font-bold mb-2">Memproses Pembayaran</h3>
+      <p class="text-gray-600">Harap tunggu sebentar...</p>
+    </div>
+  </div>
+  <!-- Success Modal -->
+  <div id="successModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl max-w-md w-full p-6 text-center">
+      <div class="text-green-500 mb-4">
+        <i class="fas fa-check-circle text-5xl"></i>
+      </div>
+      <h2 class="text-2xl font-bold mb-2">Pembayaran Berhasil!</h2>
+      <p class="text-gray-600 mb-4">Terima kasih telah melakukan pembayaran.</p>
+      <div class="bg-gray-50 p-4 rounded-lg mb-4 text-left">
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-500">Invoice</span>
+          <span class="font-mono">INV-<span id="invoiceNumber">XXXX</span></span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-500">Metode</span>
+          <span id="successMethod" class="font-medium">QRIS</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Total</span>
+          <span id="successAmount" class="font-bold text-blue-600">${typeof price === 'number' ? `Rp${price.toLocaleString('id-ID')}` : price}</span>
+        </div>
+      </div>
+      <button id="closeSuccessModal" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
+        Selesai
+      </button>
+    </div>
+  </div>
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <i class="fas fa-copy mr-2"></i> Nomor disalin!
+  </div>
 `;
 
 // Slideshow Logic
@@ -174,7 +470,7 @@ const renderHome = () => {
           ...product,
           isFavorite: favorites.includes(product.id),
           isLarge: (product.category === 'Website' && index === 0) || product.category === 'Sosmed Booster'
-        })).join('') : '<p class="text-gray-600 col-span-full">No products found.</p>'}
+        })).join('') : '<p class="text-gray-600 col-span-full">Tidak ada produk ditemukan.</p>'}
       </section>
     </div>
   `;
@@ -195,55 +491,27 @@ const renderProductDetails = () => {
         <h2 class="font-bold text-lg text-gray-900 mb-2">${product.name}</h2>
         <p class="text-gray-600 text-sm mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <div class="text-sm font-semibold text-gray-900 mb-3">
-          <span>Rp${product.price.toLocaleString('id-ID')}</span>
+          <span>${typeof product.price === 'number' ? `Rp${product.price.toLocaleString('id-ID')}` : product.price}</span>
         </div>
-        <button class="add-to-cart w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg" data-id="${product.id}">Add to Cart</button>
+        <div class="flex items-center mt-2 space-x-2">
+          <button class="pay-btn w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Bayar</button>
+          <a href="https://wa.me/6285156779923" class="whatsapp-btn bg-green-500 text-white p-2 rounded-full" aria-label="Contact via WhatsApp">
+            <i class="fab fa-whatsapp text-lg"></i>
+          </a>
+        </div>
       </section>
     </div>
   `;
 };
 
-const renderCart = () => {
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const cartItems = cart.map(item => {
-    const product = products.find(p => p.id === item.id);
-    return { ...product, quantity: item.quantity };
-  }).filter(item => item);
-  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-  const generateWhatsAppMessage = () => {
-    const message = cartItems.map(item => `${item.quantity}x ${item.name} - Rp${(item.price * item.quantity).toLocaleString('id-ID')}`).join('\n');
-    return encodeURIComponent(`Order Details:\n${message}\nTotal: Rp${total.toLocaleString('id-ID')}`);
-  };
-
-  return `
-    <div class="w-full max-w-sm mx-auto p-4">
-      <h2 class="font-bold text-lg text-gray-900 mb-4">Keranjang Anda</h2>
-      <section class="space-y-4">
-        ${cartItems.length === 0 ? '<p class="text-gray-600">Keranjang Anda kosong.</p>' : cartItems.map(item => `
-          <div class="cart-item flex items-center justify-between bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
-            <div class="flex items-center space-x-3">
-              <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg" />
-              <div>
-                <h3 class="font-semibold text-gray-900 text-sm">${item.name}</h3>
-                <p class="text-gray-600 text-xs">Rp${item.price.toLocaleString('id-ID')}</p>
-              </div>
-            </div>
-            <div class="flex items-center space-x-2">
-              <button class="decrease-quantity bg-gray-200 text-gray-900 text-sm px-2 py-1 rounded" data-id="${item.id}">-</button>
-              <span>${item.quantity}</span>
-              <button class="increase-quantity bg-gray-200 text-gray-900 text-sm px-2 py-1 rounded" data-id="${item.id}">+</button>
-            </div>
-          </div>
-        `).join('')}
-      </section>
-      <div class="mt-6">
-        <p class="font-semibold text-gray-900">Total: Rp${total.toLocaleString('id-ID')}</p>
-        <a href="https://wa.me/6285156779923?text=${generateWhatsAppMessage()}" class="w-full bg-[#3B82F6] text-white text-sm font-semibold py-2 rounded-lg mt-4 inline-block text-center ${cartItems.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${cartItems.length === 0 ? 'disabled' : ''}>Checkout via WhatsApp</a>
-      </div>
-    </div>
-  `;
-};
+const renderPaket = () => `
+  <div class="w-full max-w-sm mx-auto p-4">
+    <h2 class="font-bold text-lg text-gray-900 mb-4">Paket Anda</h2>
+    <section class="space-y-4">
+      <p class="text-gray-600">Paket Anda kosong.</p>
+    </section>
+  </div>
+`;
 
 const renderTestimoni = () => `
   <div class="w-full max-w-sm mx-auto p-4">
@@ -251,7 +519,7 @@ const renderTestimoni = () => `
     <section class="bg-gray-50 rounded-2xl p-4 shadow-[0_10px_15px_rgba(0,0,0,0.1)]">
       <div class="flex items-center space-x-4 mb-4">
         <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-          <i class="fas fa-user text-xl text-gray-600"></i>
+          <i class="fas fa-comment text-xl text-gray-600"></i>
         </div>
         <div>
           <h3 class="font-semibold text-gray-900">John Doe</h3>
@@ -299,7 +567,7 @@ const renderAdmin = () => `
 const routes = {
   '/NolanDex/': renderHome,
   '/NolanDex/product': renderProductDetails,
-  '/NolanDex/cart': renderCart,
+  '/NolanDex/paket': renderPaket,
   '/NolanDex/testimoni': renderTestimoni,
   '/NolanDex/login': renderLogin,
   '/NolanDex/admin': renderAdmin,
@@ -363,47 +631,164 @@ function attachEventListeners() {
     });
   });
 
-  // Cart
-  document.querySelectorAll('.add-to-cart').forEach(btn => {
+  // Payment Modal
+  document.querySelectorAll('.pay-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = parseInt(btn.dataset.id);
-      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const item = cart.find(i => i.id === id);
-      if (item) {
-        item.quantity += 1;
-      } else {
-        cart.push({ id, quantity: 1 });
-      }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert('Ditambahkan ke keranjang!');
-    });
-  });
+      const name = btn.dataset.name;
+      const price = btn.dataset.price === 'Klik' ? 'Klik' : parseInt(btn.dataset.price);
+      const modalContainer = document.createElement('div');
+      modalContainer.innerHTML = PaymentModal({ product: name, price: price });
+      document.body.appendChild(modalContainer);
+      document.body.style.overflow = 'hidden';
 
-  document.querySelectorAll('.increase-quantity').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = parseInt(btn.dataset.id);
-      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const item = cart.find(i => i.id === id);
-      if (item) {
-        item.quantity += 1;
-        localStorage.setItem('cart', JSON.stringify(cart));
-        router();
-      }
-    });
-  });
+      // Payment Modal Scripts
+      let selectedMethod = null;
 
-  document.querySelectorAll('.decrease-quantity').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = parseInt(btn.dataset.id);
-      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const item = cart.find(i => i.id === id);
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
-      } else {
-        cart = cart.filter(i => i.id !== id);
+      function formatRupiah(amount) {
+        return 'Rp' + parseInt(amount).toLocaleString('id-ID');
       }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      router();
+
+      function copyToClipboard(text, label) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`${label} disalin!`);
+        }).catch(err => {
+          console.error('Gagal menyalin: ', err);
+        });
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.innerHTML = `<i class="fas fa-copy mr-2"></i> ${message}`;
+        toast.style.display = 'flex';
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 2000);
+      }
+
+      function getMethodName(method) {
+        const methods = {
+          'qris': 'QRIS',
+          'virtual_account': 'Virtual Account',
+          'ewallet': 'E-Wallet',
+          'retail': 'Retail',
+          'credit_card': 'Kartu Kredit'
+        };
+        return methods[method] || 'Pembayaran';
+      }
+
+      function processPayment() {
+        document.getElementById('paymentModal').classList.add('hidden');
+        document.getElementById('processingModal').classList.remove('hidden');
+        setTimeout(() => {
+          document.getElementById('loadingBar').style.width = '100%';
+        }, 100);
+        setTimeout(() => {
+          document.getElementById('processingModal').classList.add('hidden');
+          document.getElementById('successAmount').textContent = typeof price === 'number' ? formatRupiah(price) : price;
+          document.getElementById('successMethod').textContent = getMethodName(selectedMethod);
+          document.getElementById('invoiceNumber').textContent = 'INV-' + Math.floor(1000 + Math.random() * 9000);
+          document.getElementById('successModal').classList.remove('hidden');
+        }, 1500);
+      }
+
+      document.querySelectorAll('.payment-method').forEach(method => {
+        method.addEventListener('click', function() {
+          const container = this.closest('.payment-method-container');
+          const details = container.querySelector('.payment-details');
+          const chevron = this.querySelector('i.fa-chevron-down');
+          document.querySelectorAll('.payment-details').forEach(d => {
+            if (d !== details) {
+              d.classList.remove('active');
+            }
+          });
+          document.querySelectorAll('.payment-method i.fa-chevron-down').forEach(icon => {
+            if (icon !== chevron) {
+              icon.classList.remove('rotate-180');
+            }
+          });
+          details.classList.toggle('active');
+          chevron.classList.toggle('rotate-180');
+          selectedMethod = this.getAttribute('data-method');
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.bank-option')) {
+          const option = e.target.closest('.bank-option');
+          const container = option.closest('.payment-details');
+          const vaNumber = container.querySelector('.va-number');
+          const copyBtn = container.querySelector('.copy-btn');
+          container.querySelectorAll('.bank-option').forEach(opt => {
+            opt.classList.remove('bg-blue-100');
+          });
+          option.classList.add('bg-blue-100');
+          const bank = option.getAttribute('data-bank');
+          const vaNumbers = {
+            'bca': '8888801234567890',
+            'mandiri': '8888802345678901',
+            'bni': '8888803456789012'
+          };
+          if (vaNumbers[bank]) {
+            vaNumber.textContent = vaNumbers[bank];
+            copyBtn.setAttribute('onclick', `copyToClipboard('${vaNumbers[bank]}', 'Nomor VA')`);
+          }
+        }
+        if (e.target.closest('.payment-option')) {
+          const option = e.target.closest('.payment-option');
+          const container = option.closest('.payment-details');
+          if (container.querySelector('.ewallet-number')) {
+            const ewalletNumber = container.querySelector('.ewallet-number');
+            const copyBtn = container.querySelector('.copy-btn');
+            container.querySelectorAll('.payment-option').forEach(opt => {
+              opt.classList.remove('bg-blue-100');
+            });
+            option.classList.add('bg-blue-100');
+            const wallet = option.getAttribute('data-wallet');
+            const numbers = {
+              'dana': '081234567890',
+              'gopay': '081987654321',
+              'ovo': '082345678901'
+            };
+            if (numbers[wallet]) {
+              ewalletNumber.textContent = numbers[wallet];
+              copyBtn.setAttribute('onclick', `copyToClipboard('${numbers[wallet]}', 'Nomor e-wallet')`);
+            }
+          }
+          if (container.querySelector('.retail-code')) {
+            const retailCode = container.querySelector('.retail-code');
+            const copyBtn = container.querySelector('.copy-btn');
+            container.querySelectorAll('.payment-option').forEach(opt => {
+              opt.classList.remove('bg-blue-100');
+            });
+            option.classList.add('bg-blue-100');
+            const retail = option.getAttribute('data-retail');
+            const codes = {
+              'alfamart': 'ALFA' + Math.floor(100000 + Math.random() * 900000),
+              'indomaret': 'INDO' + Math.floor(100000 + Math.random() * 900000)
+            };
+            if (codes[retail]) {
+              retailCode.textContent = codes[retail];
+              copyBtn.setAttribute('onclick', `copyToClipboard('${codes[retail]}', 'Kode pembayaran')`);
+            }
+          }
+        }
+        if (e.target.closest('.confirm-payment')) {
+          processPayment();
+        }
+      });
+
+      document.getElementById('closeModal').addEventListener('click', () => {
+        document.getElementById('paymentModal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        modalContainer.remove();
+      });
+
+      document.getElementById('closeSuccessModal').addEventListener('click', () => {
+        document.getElementById('successModal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        modalContainer.remove();
+      });
     });
   });
 
